@@ -1,0 +1,27 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+./frost-backend/node_modules
+./frost-frontend/node_modules
+./frost-frontend/.pnp
+./frost-frontend/.pnp.js
+
+# testing
+./frost-frontend/coverage
+
+# production
+./frost-frontend/build
+
+# misc
+./frost-frontend/.DS_Store
+./frost-frontend/.env.local
+./frost-frontend/.env.development.local
+./frost-frontend/.env.test.local
+./frost-frontend/.env.production.local
+
+./frost-frontend/npm-debug.log*
+./frost-frontend/yarn-debug.log*
+./frost-frontend/yarn-error.log*
+/.idea/
+/frost-frontend/node_modules/
+/frost-backend/node_modules/

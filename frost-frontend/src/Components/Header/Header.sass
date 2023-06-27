@@ -1,0 +1,78 @@
+@import "../nardoo"
+
+/*----------------Header----------------------------*/
+.header
+  background: #1E1E1E
+  color: white
+  padding: 7px 0
+
+.container
+  width: 1170px
+  margin: 0 auto
+  align-items: center
+  display: flex
+
+.logo
+  width: 129px
+  height: 96px
+
+.logo__img
+  width: 100%
+  height: 100%
+
+.header__text
+  margin-left: 21px
+  font-weight: 500
+  white-space: nowrap
+  font-size: 18px
+  color: white
+
+.phone
+  margin-left: 25px
+  font-weight: 700
+  font-size: 18px
+  line-height: 25px
+  display: flex
+  flex-direction: column
+
+
+.sign
+  width: auto
+  text-align: right
+  margin-left: 29px
+  display: inline-grid
+
+.sign-text
+  font-weight: 400
+  font-size: 16px
+  color: #E4E4E4
+  cursor: pointer
+
+
+.cart
+  background-color: transparent
+  margin-left: 35px
+  border: none
+  position: relative
+  cursor: pointer
+
+.cart:before
+  content: ''
+  width: 20px
+  height: 20px
+  right: -7px
+  top: -2px
+  position: absolute
+  background: #2156BD
+  border-radius: 50%
+
+.cart:after
+  content: '2'
+  right: -2px
+  top: -2px
+  position: absolute
+  color: white
+  border-radius: 50%
+  font-weight: 700
+  font-size: 14px
+  color: #FFFFFF
