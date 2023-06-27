@@ -24,4 +24,5 @@
 ./frost-frontend/yarn-error.log*
 /.idea/
 /frost-frontend/node_modules/
+
 /frost-backend/node_modules/
