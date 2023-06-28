@@ -107,8 +107,14 @@ BasketDevice.belongsTo(Device);
 User.hasOne(Device);
 Device.belongsTo(User);
 
-Review.hasOne(User);
-User.belongsTo(Review);
+User.hasOne(Review);
+Review.belongsTo(User);
+
+Device.hasOne(Review);
+Review.belongsTo(Device);
+
+Basket.hasOne(Order);
+Order.belongsTo(Basket)
 
 module.exports = {
     User,

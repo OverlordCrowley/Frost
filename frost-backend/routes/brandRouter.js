@@ -1,8 +1,8 @@
 const Router = require('express')
 const router = new Router()
-const categoryController = require('../controllers/categoryController')
+const brandController = require('../controllers/brandController')
 const authMiddleware = require('../middleware/authMiddleware')
 
-router.get('/category', categoryController.getAll)
+router.get('/brand', brandController.getAll)
 
 module.exports = router
