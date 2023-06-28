@@ -18,7 +18,7 @@ const numCPUs = cpus().length;
 if (cluster.isPrimary) {
     console.log(`Primary ${process.pid} is running`);
 
-    // Fork workers.
+
     for (let i = 0; i < numCPUs; i++) {
         cluster.fork();
     }
@@ -35,7 +35,7 @@ else{
     app.use(fileUpload({}))
     app.use('/api', router)
 
-// Обработка ошибок, последний Middleware
+
     app.use(errorHandler)
 
     const start = async () => {

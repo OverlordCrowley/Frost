@@ -3,7 +3,7 @@ const {User, Basket} = require('../models/models')
 
 
 
-class UserController {
+class DeviceController {
     async getAll(req, res, next) {
         const {brandId, categoryId, modelId, generationId} = req.query
         if (!email || !password) {
@@ -38,4 +38,4 @@ class UserController {
 
 }
 
-module.exports = new UserController()
+module.exports = new DeviceController()

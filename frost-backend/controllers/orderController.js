@@ -1,7 +1,7 @@
 const ApiError = require('../error/ApiError');
 const {User, Basket} = require('../models/models')
 
-class CategoryController {
+class OrderController{
     async getAll(req, res, next) {
         const category = await User.findAll()
         return res.json({category})
@@ -9,4 +9,4 @@ class CategoryController {
 
 }
 
-module.exports = new CategoryController()
+module.exports = new OrderController()
