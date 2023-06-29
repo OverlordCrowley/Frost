@@ -1,10 +1,16 @@
 const ApiError = require('../error/ApiError');
-const {User, Basket} = require('../models/models')
+const {Model} = require('../models/models')
 
 class ModelController{
     async getAll(req, res, next) {
-        const category = await User.findAll()
-        return res.json({category})
+
+        let {brandId} = req.query;
+        if(brandId){
+            const model = await Model.findAll({where:{'brandId' : brandId}})
+            return res.json({model})
+        }
+        const model = await Model.findAll()
+        return res.json({model})
     }
 }
 

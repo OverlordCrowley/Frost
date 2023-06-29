@@ -3,6 +3,6 @@ const router = new Router()
 const categoryController = require('../controllers/categoryController')
 const authMiddleware = require('../middleware/authMiddleware')
 
-router.get('/category', categoryController.getAll)
+router.get('/', categoryController.getAll)
 
 module.exports = router

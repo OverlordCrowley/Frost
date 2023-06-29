@@ -12,8 +12,8 @@ const User = sequelize.define('user', {
     city: { type: DataTypes.STRING, allowNull: true },
     street: { type: DataTypes.STRING, allowNull: true },
     home: { type: DataTypes.STRING, allowNull: true },
-    number: { type: DataTypes.STRING, allowNull: true },
-    password: { type: DataTypes.STRING },
+    number_home: { type: DataTypes.STRING, allowNull: true },
+    pass: { type: DataTypes.STRING },
 });
 
 const Basket = sequelize.define('basket', {
@@ -38,7 +38,7 @@ const Device = sequelize.define('device', {
     available: { type: DataTypes.BOOLEAN, allowNull: false },
 });
 
-const Category = sequelize.define('category', {
+    const Category = sequelize.define('category', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     name: { type: DataTypes.STRING, unique: true, allowNull: false },
 });
@@ -73,27 +73,24 @@ const Review = sequelize.define('review', {
 
 });
 
-// Определение связей после определения всех моделей
 User.hasOne(Basket);
 Basket.belongsTo(User);
 
 Basket.hasMany(BasketDevice);
 BasketDevice.belongsTo(Basket);
 
-Brand.hasOne(Device);
+Brand.hasMany(Device);
 Device.belongsTo(Brand);
 
-Model.hasMany(Device);
-Device.belongsTo(Model);
+Model.belongsTo(Brand);
+Brand.hasMany(Model);
 
 Generation.hasMany(GenerationType);
 GenerationType.belongsTo(Generation);
 
-Model.hasOne(Brand);
-Brand.belongsTo(Model);
 
-Generation.hasOne(Brand);
-Brand.belongsTo(Generation);
+Model.hasMany(GenerationType);
+GenerationType.belongsTo(Model);
 
 Device.hasMany(GenerationType);
 GenerationType.belongsTo(Device);
@@ -101,11 +98,11 @@ GenerationType.belongsTo(Device);
 Device.hasMany(Image);
 Image.belongsTo(Device);
 
-Device.hasMany(BasketDevice);
 BasketDevice.belongsTo(Device);
+Device.hasMany(BasketDevice);
 
-User.hasOne(Device);
-Device.belongsTo(User);
+Model.hasOne(Device);
+Device.belongsTo(Model);
 
 User.hasOne(Review);
 Review.belongsTo(User);
@@ -114,7 +111,8 @@ Device.hasOne(Review);
 Review.belongsTo(Device);
 
 Basket.hasOne(Order);
-Order.belongsTo(Basket)
+Order.belongsTo(Basket);
+
 
 module.exports = {
     User,
@@ -124,6 +122,7 @@ module.exports = {
     Device,
     Category,
     Model,
+    Brand,
     Generation,
     GenerationType,
     Order,

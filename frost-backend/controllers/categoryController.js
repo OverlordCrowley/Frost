@@ -1,9 +1,9 @@
 const ApiError = require('../error/ApiError');
-const {User, Basket} = require('../models/models')
+const {Category} = require('../models/models')
 
 class CategoryController {
     async getAll(req, res, next) {
-        const category = await User.findAll()
+        const category = await Category.findAll()
         return res.json({category})
     }
 

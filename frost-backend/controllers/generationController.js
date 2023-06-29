@@ -1,10 +1,20 @@
 const ApiError = require('../error/ApiError');
-const {User, Basket} = require('../models/models')
+const {Generation, GenerationType} = require('../models/models')
 
 class GenerationController{
     async getAll(req, res, next) {
-        const category = await User.findAll()
-        return res.json({category})
+
+        let {modelId} = req.query;
+
+        if(modelId){
+            const generation = await GenerationType.findAll({where: {"modelId" : modelId}})
+            return res.json({generation})
+        }
+
+        const generation = await Generation.findAll()
+        return res.json({generation})
+
+
     }
 }
 

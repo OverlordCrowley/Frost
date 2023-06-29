@@ -3,6 +3,6 @@ const router = new Router()
 const  generationController = require('../controllers/generationController')
 const authMiddleware = require('../middleware/authMiddleware')
 
-router.get('/generation', generationController.getAll)
+router.get('/', generationController.getAll)
 
 module.exports = router
