@@ -82,12 +82,14 @@ BasketDevice.belongsTo(Basket);
 Brand.hasMany(Device);
 Device.belongsTo(Brand);
 
+Category.hasMany(Device);
+Device.belongsTo(Category);
+
 Model.belongsTo(Brand);
 Brand.hasMany(Model);
 
 Generation.hasMany(GenerationType);
 GenerationType.belongsTo(Generation);
-
 
 Model.hasMany(GenerationType);
 GenerationType.belongsTo(Model);
