@@ -13,7 +13,7 @@ const User = sequelize.define('user', {
     street: { type: DataTypes.STRING, allowNull: true },
     home: { type: DataTypes.STRING, allowNull: true },
     number_home: { type: DataTypes.STRING, allowNull: true },
-    pass: { type: DataTypes.STRING },
+    pass: { type: DataTypes.STRING, allowNull: false },
 });
 
 const Basket = sequelize.define('basket', {

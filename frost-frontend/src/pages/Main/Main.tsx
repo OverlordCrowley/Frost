@@ -6,6 +6,8 @@ import Card from "../../Components/Card/Card";
 import PageBox from "../../Components/PageBox/PageBox";
 import axios from "axios";
 import {IBrands, ICategories, IGeneration, IItems, IModels, IPages, Item} from "../../types/types";
+import {fetchCategories} from "../../http/categoryAPI";
+import {fetchBrands} from "../../http/brandAPI";
 const Main = () => {
     const defaultCategories: ICategories = {
         items: [],
@@ -96,26 +98,25 @@ const Main = () => {
                 console.error(error);
             });
 
-        axios.get(`http://localhost:8080/category`)
+        fetchCategories()
             .then(res => {
                 const obj = {
                 name : 'Категории',
-                items : res.data,
+                items : res.category,
                 standard : 'Все категории'
                 };
                 setCategory(obj)
-                console.log(obj)
                 }
             )
             .catch(error => {
                 console.error(error);
             });
 
-        axios.get(`http://localhost:8080/mark`)
+        fetchBrands()
             .then(res => {
                 const obj = {
                 name : 'Марки',
-                items : res.data,
+                items : res.brand,
                 standard : 'Все марки'
                 };
                 setMark(obj)

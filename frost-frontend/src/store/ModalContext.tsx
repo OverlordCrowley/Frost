@@ -9,6 +9,8 @@ interface ModalContextProviderProps{
 
 const ModalContextProvider: React.FC<ModalContextProviderProps> = ({ children }) => {
     const [value, setValue] = useState<modalType>(modalType.none);
+    const [user, setUser] = useState<modalType>(modalType.none);
+    const [isAuth, setIsAuth] = useState<modalType>(modalType.none);
 
     const updateValue = (newValue: modalType) => {
         setValue(newValue);
@@ -18,6 +20,9 @@ const ModalContextProvider: React.FC<ModalContextProviderProps> = ({ children })
         value,
         updateValue
     };
+
+
+
 
     return (
         <ModalContext.Provider value={modalContextValue}>
