@@ -1,11 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import './Checkbox.sass';
+import {Simulate} from "react-dom/test-utils";
+import click = Simulate.click;
 const gal = require('../../../images/gal.svg').default;
 interface CheckboxProps{
-    name: string
+    name: string,
+    onClickHandler?: (val: boolean) => void;
 }
 
-const Checkbox: React.FC<CheckboxProps> = ({name}) => {
+const Checkbox: React.FC<CheckboxProps> = ({name, onClickHandler}) => {
     let [nameValue, setNameValue] = useState<string>(name);
     let [active, setActive] = useState<boolean>(false);
     useEffect(()=>{
@@ -16,9 +19,11 @@ const Checkbox: React.FC<CheckboxProps> = ({name}) => {
         e.stopPropagation();
         if(active){
             setActive(false)
+            onClickHandler?.(false)
         }
         else{
             setActive(true);
+            onClickHandler?.(true)
         }
     }
 

@@ -8,6 +8,9 @@ import axios from "axios";
 import {IBrands, ICategories, IGeneration, IItems, IModels, IPages, Item} from "../../types/types";
 import {fetchCategories} from "../../http/categoryAPI";
 import {fetchBrands} from "../../http/brandAPI";
+import {fetchModels} from "../../http/modelAPI";
+import {fetchGeneration} from "../../http/generationAPI";
+import {fetchItem} from "../../http/itemAPI";
 const Main = () => {
     const defaultCategories: ICategories = {
         items: [],
@@ -39,15 +42,28 @@ const Main = () => {
     const [curPage ,setCurPage] = useState<number>(1);
     const [lastPage ,setLastPage] = useState<number>(0);
     const [selectedMark, setSelectedMark] = useState<string | number>('Все марки');
+    const [selectedModel, setSelectedModel] = useState<string | number>('');
+    const [selectedCategory, setSelectedCategory] = useState<string | number>(1);
+    const [selectedGeneration, setSelectedGeneration] = useState<string | number>('Все поколения');
+    const [selectedAvailable, setSelectedAvailable] = useState<boolean>(true);
     const [items, setItems] = useState<Item[]>(defaultItems.items);
+    const count = 6;
     const [pages, setPages] = useState<IPages>({
         totalPages: 0,
         currentPage: 1,
     });
 
     useEffect(()=>{
-        axios.get(`http://frost.runtime.kz/products?page=` +curPage + `&size=4`)
+        fetchItem({
+            "categoryId" : selectedCategory,
+            "modelId" : selectedModel,
+            "brandId" : selectedMark,
+            "available" : selectedAvailable,
+            "generationId" : selectedGeneration,
+            "currentPage" : curPage,
+            "count" : count})
             .then(res => {
+                console.log(res)
                     setCurPage(res.data['currentPage']);
                     setLastPage(res.data['totalPages']);
                     setItems(res.data['items'])
@@ -60,11 +76,11 @@ const Main = () => {
 
     useEffect(()=>{
        if(selectedMark !== 'Все марки'){
-           axios.get(`http://localhost:8080/model?brandid=`+selectedMark)
+           fetchModels(selectedMark)
                .then(res => {
                        const obj: IModels = {
                            name : 'Модели',
-                           items : res.data,
+                           items : res.model,
                            standard : 'Все модели'
                        };
                        setModel(obj)
@@ -97,7 +113,6 @@ const Main = () => {
             .catch(error => {
                 console.error(error);
             });
-
         fetchCategories()
             .then(res => {
                 const obj = {
@@ -128,6 +143,38 @@ const Main = () => {
     }, [])
 
     useEffect(()=>{
+        fetchGeneration(selectedModel)
+            .then(res => {
+
+                let obj;
+                if(res.generation){
+                    obj = {
+                        name : 'Поколение',
+                        items : res.generation,
+                        standard : 'Все поколения'
+                    };
+                }
+                    else{
+                    console.log(res.generationTypes['generation'])
+                    // let arr = [];
+                    // res.generationTypes.fo
+                    obj = {
+                        name : 'Поколение',
+                        // items : arr,
+                        standard : 'Все поколения'
+                    };
+                }
+
+
+                    setGeneration(obj)
+                }
+            )
+            .catch(error => {
+                console.error(error);
+            });
+    }, [selectedModel])
+
+    useEffect(()=>{
         if(mark.items !== undefined){
             let obj: IModels = {
             name : 'Модели',
@@ -153,6 +200,18 @@ const Main = () => {
     const handleBrandClick = (val: number | string) =>{
         setSelectedMark(val);
     }
+    const handleCategoryClick = (val: number | string) =>{
+        setSelectedCategory(val);
+    }
+    const handleModelClick = (val: number | string) =>{
+        setSelectedModel(val);
+    }
+    const handleGenerationClick = (val: number | string) =>{
+        setSelectedGeneration(val);
+    }
+    const handleAvailableClick = (val: boolean) =>{
+        setSelectedAvailable(val);
+    }
 
     return (
         <section className="main">
@@ -160,7 +219,7 @@ const Main = () => {
                 <div className="sort-box">
                         <div className="sort-item" >
                             <span className="sort-item__title">{category.name}</span>
-                            <Select def={category.standard} isModel={false} arr={category.items}/>
+                            <Select def={category.standard} isModel={false} click={handleCategoryClick} arr={category.items}/>
                         </div>
                     <div className="sort-item" >
                         <span className="sort-item__title">{mark.name}</span>
@@ -169,13 +228,13 @@ const Main = () => {
                     </div>
                     <div className="sort-item" >
                         <span className="sort-item__title">{model.name}</span>
-                        <Select isModel={true} def={model.standard} arr={model.items}/>
+                        <Select isModel={true} def={model.standard} click={handleModelClick} arr={model.items}/>
                     </div>
                     <div className="sort-item" >
-                        <span className="sort-item__title">{category.name}</span>
-                        <Select isModel={false} def={category.standard} arr={category.items}/>
+                        <span className="sort-item__title">{generation.name}</span>
+                        <Select isModel={false} def={generation.standard} click={handleGenerationClick} arr={generation.items}/>
                     </div>
-                    <Checkbox name={'в наличии'}/>
+                    <Checkbox name={'в наличии'} onClickHandler={handleAvailableClick}/>
                 </div>
                 <div className="item-box">
                     {items.map((el, index)=>(
