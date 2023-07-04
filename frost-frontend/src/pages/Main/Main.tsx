@@ -5,7 +5,7 @@ import Checkbox from "../../Components/UI/Checkbox/Checkbox";
 import Card from "../../Components/Card/Card";
 import PageBox from "../../Components/PageBox/PageBox";
 import axios from "axios";
-import {IBrands, ICategories, IGeneration, IItems, IModels, IPages, Item} from "../../types/types";
+import {Fill, IBrands, ICategories, IFitLevel2, IGeneration, IItems, IModels, IPages, Item} from "../../types/types";
 import {fetchCategories} from "../../http/categoryAPI";
 import {fetchBrands} from "../../http/brandAPI";
 import {fetchModels} from "../../http/modelAPI";
@@ -35,17 +35,20 @@ const Main = () => {
     const defaultItems: IItems = {
         items: []
     };
+
+
+
     const [category, setCategory] = useState<ICategories>(defaultCategories);
     const [model, setModel] = useState<IModels>(defaultModels);
     const [mark, setMark] = useState<IBrands>(defaultMark);
     const [generation, setGeneration] = useState<IGeneration>(defaultGeneration);
     const [curPage ,setCurPage] = useState<number>(1);
     const [lastPage ,setLastPage] = useState<number>(0);
-    const [selectedMark, setSelectedMark] = useState<string | number>('Все марки');
+    const [selectedMark, setSelectedMark] = useState<string | number>('');
     const [selectedModel, setSelectedModel] = useState<string | number>('');
-    const [selectedCategory, setSelectedCategory] = useState<string | number>(1);
-    const [selectedGeneration, setSelectedGeneration] = useState<string | number>('Все поколения');
-    const [selectedAvailable, setSelectedAvailable] = useState<boolean>(true);
+    const [selectedCategory, setSelectedCategory] = useState<string | number>('');
+    const [selectedGeneration, setSelectedGeneration] = useState<string | number>('');
+    const [selectedAvailable, setSelectedAvailable] = useState<boolean>();
     const [items, setItems] = useState<Item[]>(defaultItems.items);
     const count = 6;
     const [pages, setPages] = useState<IPages>({
@@ -64,9 +67,9 @@ const Main = () => {
             "count" : count})
             .then(res => {
                 console.log(res)
-                    setCurPage(res.data['currentPage']);
-                    setLastPage(res.data['totalPages']);
-                    setItems(res.data['items'])
+                setCurPage(res.currentPage);
+                setLastPage(res.totalPages);
+                setItems(res.devices.rows);
                 }
             )
             .catch(error => {
@@ -101,13 +104,20 @@ const Main = () => {
             }
     }, [selectedMark])
 
-
     useEffect(()=>{
-        axios.get(`http://frost.runtime.kz/products?page=1&size=4`)
+        fetchItem({
+            "categoryId" : selectedCategory,
+            "modelId" : selectedModel,
+            "brandId" : selectedMark,
+            "available" : selectedAvailable,
+            "generationId" : selectedGeneration,
+            "currentPage" : curPage,
+            "count" : count})
             .then(res => {
-                    setCurPage(res.data['currentPage']);
-                    setLastPage(res.data['totalPages']);
-                    setItems(res.data['items'])
+                console.log(res)
+                    setCurPage(res.currentPage);
+                    setLastPage(res.totalPages);
+                    setItems(res.devices.rows);
                 }
             )
             .catch(error => {
@@ -154,19 +164,19 @@ const Main = () => {
                         standard : 'Все поколения'
                     };
                 }
-                    else{
-                    console.log(res.generationTypes['generation'])
-                    // let arr = [];
-                    // res.generationTypes.fo
+
+
+                else{
                     obj = {
                         name : 'Поколение',
-                        // items : arr,
+                        items : res.arr,
                         standard : 'Все поколения'
                     };
+
                 }
+                setGeneration(obj)
 
 
-                    setGeneration(obj)
                 }
             )
             .catch(error => {

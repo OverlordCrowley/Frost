@@ -16,6 +16,16 @@ class DeviceController {
             count
         } = req.query;
 
+        console.log({
+            categoryId,
+            modelId,
+            brandId,
+            available,
+            generationId,
+            currentPage,
+            count
+        })
+
         const whereClause = {};
 
         if (categoryId) {
@@ -36,7 +46,6 @@ class DeviceController {
 
         try {
             let devices;
-            let totalCount;
             let totalPages;
 
             if (generationId) {
@@ -63,8 +72,7 @@ class DeviceController {
                     offset: (currentPage - 1) * count
                 });
 
-                totalCount = devices.count;
-                totalPages = Math.ceil(totalCount / count);
+                totalPages = Math.ceil(devices.count / count);
             } else {
                 devices = await Device.findAll({
                     where: whereClause,
@@ -80,7 +88,8 @@ class DeviceController {
                 devices
             });
         } catch (error) {
-            return next(ApiError.internal('Ошибка сервера'));
+            // return next(ApiError.internal('Ошибка сервера'));
+            console.log(error)
         }
     }
 

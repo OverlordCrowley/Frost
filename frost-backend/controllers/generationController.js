@@ -8,11 +8,24 @@ class GenerationController{
      let {modelId} = req.query;
 
         if (modelId) {
+
             const generationTypes = await GenerationType.findAll({
                 where: { modelId },
-                include: Generation,
+                include: [
+                    {
+                        model: Generation,
+                        as: 'generation',
+                    },
+                ],
             });
-            return res.json({ generationTypes });
+
+
+            const arr = generationTypes.map((generationType) => {
+                const generationData = generationType.generation;
+                return generationData;
+            });
+
+            return res.json({ arr });
         }
 
 
@@ -21,7 +34,8 @@ class GenerationController{
 
     }
     catch (e){
-        next(ApiError.badRequest('Поколения с такой моделью не существует'))
+        // next(ApiError.badRequest('Поколения с такой моделью не существует'))
+        console.log(e)
     }
     }
 }
