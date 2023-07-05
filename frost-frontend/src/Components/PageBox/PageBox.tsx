@@ -49,6 +49,13 @@ const PageBox: React.FC<PageBoxProps> = (props) => {
         else {
             setStartPage([pages.currentPage - 1, pages.currentPage, pages.currentPage + 1]);
         }
+         if (pages.totalPages === 1 ) {
+            setStartPage([1]);
+        }
+         if(pages.currentPage + 1 === pages.totalPages){
+             list = [pages.currentPage, pages.currentPage + 1];
+             setStartPage(list);
+         }
     }
 
     useEffect(() => {
@@ -83,7 +90,8 @@ const PageBox: React.FC<PageBoxProps> = (props) => {
 
     useEffect(()=>{
         beginPage(pages);
-    }, [firstPage])
+    }, [firstPage, pageList, endPage,pageList, pages])
+
 
     return (
         <div className="page-box">
@@ -97,7 +105,7 @@ const PageBox: React.FC<PageBoxProps> = (props) => {
                 назад
             </button>) : ''}
 
-            {pages.currentPage > 2 && pages.totalPages < 3  ? (<button className={"page-box-item"}
+            {pages.currentPage > 2 && pages.totalPages > 3  ? (<button className={"page-box-item"}
                                                                        onClick={(e)=>{
                                                                            props.handler(firstPage)
                                                                        }}

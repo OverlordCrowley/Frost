@@ -1,6 +1,7 @@
 const ApiError = require('../error/ApiError');
 const {User, Basket, Device, GenerationType, Generation} = require('../models/models')
 const {Op} = require("sequelize");
+const {isBoolean} = require("validator");
 
 
 
@@ -40,8 +41,8 @@ class DeviceController {
             whereClause.brandId = brandId;
         }
 
-        if (available) {
-            whereClause.available = available === 'true';
+        if (isBoolean(available)) {
+            whereClause.available = available;
         }
 
         try {

@@ -15,7 +15,6 @@ const Header: React.FC = () => {
 
     const modalContext = useContext(ModalContext);
 
-    console.log(logo1)
 
     return (
         <section className="header">

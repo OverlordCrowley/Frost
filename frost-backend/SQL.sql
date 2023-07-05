@@ -237,34 +237,6 @@ VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 1, 1, 1),
        (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 8, 9, 19),
        (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 13, 10, 20);
 
-SELECT "device".*,
-       "generation_types"."id"           AS "generation_types.id",
-       "generation_types"."createdAt"    AS "generation_types.createdAt",
-       "generation_types"."updatedAt"    AS "generation_types.updatedAt",
-       "generation_types"."generationId" AS "generation_types.generationId",
-       "generation_types"."modelId"      AS "generation_types.modelId",
-       "generation_types"."deviceId"     AS "generation_types.deviceId"
-FROM (SELECT "device"."id",
-             "device"."name",
-             "device"."code",
-             "device"."price",
-             "device"."manufacturer",
-             "device"."description",
-             "device"."available",
-             "device"."createdAt",
-             "device"."updatedAt",
-             "device"."brandId",
-             "device"."categoryId",
-             "device"."modelId"
-      FROM "devices" AS "device"
-      WHERE "device"."available" = false
-         /*LIMIT '6' OFFSET 0*/) AS "device"
-         LEFT OUTER JOIN "generation_types" AS "generation_types" ON "device"."id" = "generation_types"."deviceId";
-
-select *
-from devices d
-left outer join generation_types gt on d.id = gt."deviceId"
-where d.available = false;
 
 -- Вставка данных в таблицу basketDevices (Устройства в корзине)
 INSERT INTO basket_devices ("basketId", "deviceId", "createdAt", "updatedAt")

@@ -56,26 +56,6 @@ const Main = () => {
         currentPage: 1,
     });
 
-    useEffect(()=>{
-        fetchItem({
-            "categoryId" : selectedCategory,
-            "modelId" : selectedModel,
-            "brandId" : selectedMark,
-            "available" : selectedAvailable,
-            "generationId" : selectedGeneration,
-            "currentPage" : curPage,
-            "count" : count})
-            .then(res => {
-                console.log(res)
-                setCurPage(res.currentPage);
-                setLastPage(res.totalPages);
-                setItems(res.devices.rows);
-                }
-            )
-            .catch(error => {
-                console.error(error);
-            });
-    }, [curPage])
 
     useEffect(()=>{
        if(selectedMark !== 'Все марки'){
@@ -109,12 +89,11 @@ const Main = () => {
             "categoryId" : selectedCategory,
             "modelId" : selectedModel,
             "brandId" : selectedMark,
-            "available" : selectedAvailable,
+            "available" : '',
             "generationId" : selectedGeneration,
             "currentPage" : curPage,
             "count" : count})
             .then(res => {
-                console.log(res)
                     setCurPage(res.currentPage);
                     setLastPage(res.totalPages);
                     setItems(res.devices.rows);
@@ -151,6 +130,47 @@ const Main = () => {
                 console.error(error);
             });
     }, [])
+
+
+    useEffect(()=>{
+        fetchItem({
+            "categoryId" : selectedCategory,
+            "modelId" : selectedModel,
+            "brandId" : selectedMark,
+            "available" : selectedAvailable,
+            "generationId" : selectedGeneration,
+            "currentPage" : 1,
+            "count" : count})
+            .then(res => {
+                    setCurPage(res.currentPage);
+                    setLastPage(res.totalPages);
+                    setItems(res.devices.rows);
+                }
+            )
+            .catch(error => {
+                console.error(error);
+            });
+    }, [selectedCategory, selectedModel, selectedMark, selectedAvailable, selectedGeneration])
+
+    useEffect(()=>{
+        fetchItem({
+            "categoryId" : selectedCategory,
+            "modelId" : selectedModel,
+            "brandId" : selectedMark,
+            "available" : selectedAvailable,
+            "generationId" : selectedGeneration,
+            "currentPage" : curPage,
+            "count" : count})
+            .then(res => {
+                    setCurPage(res.currentPage);
+                    setLastPage(res.totalPages);
+                    setItems(res.devices.rows);
+                }
+            )
+            .catch(error => {
+                console.error(error);
+            });
+    }, [curPage])
 
     useEffect(()=>{
         fetchGeneration(selectedModel)
