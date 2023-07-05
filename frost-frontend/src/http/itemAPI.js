@@ -6,5 +6,10 @@ export const fetchItem = async ({categoryId, modelId, brandId, available, genera
         return data;
 }
 
+export const fetchItemByCode = async ({code}) => {
+        const {data} = await $host.get(`api/device/code?code=${code}` );
+        return data;
+}
+
 
 

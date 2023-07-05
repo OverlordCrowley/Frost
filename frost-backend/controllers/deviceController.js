@@ -29,19 +29,19 @@ class DeviceController {
 
         const whereClause = {};
 
-        if (categoryId) {
+        if (categoryId && categoryId !== 'Все категории') {
             whereClause.categoryId = categoryId;
         }
 
-        if (modelId) {
+        if (modelId && modelId !== 'Все модели') {
             whereClause.modelId = modelId;
         }
 
-        if (brandId) {
+        if (brandId && brandId !== 'Все марки') {
             whereClause.brandId = brandId;
         }
 
-        if (isBoolean(available)) {
+        if (isBoolean(available) && available !== 'false') {
             whereClause.available = available;
         }
 
@@ -49,7 +49,7 @@ class DeviceController {
             let devices;
             let totalPages;
 
-            if (generationId) {
+            if (generationId && generationId !== 'Все поколения') {
                 const generation = await Generation.findOne({
                     where: { id: generationId }
                 });
@@ -89,8 +89,7 @@ class DeviceController {
                 devices
             });
         } catch (error) {
-            // return next(ApiError.internal('Ошибка сервера'));
-            console.log(error)
+            return next(ApiError.internal('Ошибка сервера'));
         }
     }
 

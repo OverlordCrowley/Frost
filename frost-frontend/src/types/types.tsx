@@ -33,6 +33,13 @@ export interface Item{
     image: string;
 }
 
+export interface ItemByCode{
+    name: string;
+    id: number;
+    price: number;
+    image: string;
+}
+
 export interface IItems{
     items: Item[]
 }
