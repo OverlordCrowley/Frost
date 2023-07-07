@@ -15,8 +15,8 @@ const Comment: React.FC<CommentProps> = (props) => {
 
     return (
         <div className="reviews-item">
-            <p className="reviews__full-name">{comment.name}</p>
-            <p className="reviews__text">{comment.text}</p>
+             <p className="reviews__full-name">{comment.user.first_name + " " + comment.user.second_name}</p>
+             <p className="reviews__text">{comment.text}</p>
         </div>
     );
 };

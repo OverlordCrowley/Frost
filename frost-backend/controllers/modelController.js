@@ -1,5 +1,5 @@
 const ApiError = require('../error/ApiError');
-const {Model, GenerationType} = require('../models/models')
+const {Model, GenerationType, Image, Brand, Device} = require('../models/models')
 
 class ModelController{
     async getAll(req, res, next) {
@@ -13,12 +13,37 @@ class ModelController{
     }
 
     async getByItemId(req, res, next) {
-        let {id} = req.query;
-        if(id){
-            const model = await GenerationType.findAll({where:{'deviceId' : id}})
-            return res.json({model})
+        const { id } = req.query;
+
+        if (id) {
+            try {
+                const generationTypes = await GenerationType.findAll({
+                    where: { deviceId: id },
+                    include: [
+                        {
+                            model: Model,
+                            attributes: ['id', 'name'],
+                        },
+                    ],
+                });
+
+                return res.json(generationTypes);
+            } catch (error) {
+                console.log(error);
+                return next(ApiError.internal('Ошибка сервера'));
+            }
         }
     }
+
+
+
+
+
+
+
+
+
+
 }
 
 module.exports = new ModelController()

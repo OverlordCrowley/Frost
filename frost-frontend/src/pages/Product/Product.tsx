@@ -9,122 +9,28 @@ import {ModalContext} from "../../store/ModalContext";
 import AddToCarModal from "../../Components/Modal/addToCarModal";
 import {fetchItemOne} from "../../http/itemAPI";
 import {fetchModelsByItemId} from "../../http/modelAPI";
+import {fetchComment} from "../../http/commentAPI";
 
 
 const Product: React.FC = () => {
 
 
-    const { id } = useParams() as { id: string };
-    const defaultReviews: IComment[] = [
-        {
-            name: 'Константин Константинович Константинопольский',
-            text:
-                'Несколько лет покупаю запчасти в этом магазине, ребята очень быстро подбирают, что нужно и по адекватным ценам. Спасибо, что выручаете! Смело рекомендую своим знакомым.',
-        },
-        {
-            name: 'Дмитрий О.',
-            text:
-                'Скорость обработки заказов и отношение к заказчику радует. Заказывал этот компрессор. После двух месяцев работы нареканий нет.',
-        },
-    ];
-    const [reviews, setReviews] = useState<IComment[]>(defaultReviews);
+    const { id } = useParams();
+    const [reviews, setReviews] = useState<IComment[]>([]);
     const [images, setImages] = useState([]);
-    let [selectImage, setSelectImage] = useState<any>({});
+    const [selectImage, setSelectImage] = useState<any>({});
     const [articul, setArticul] = useState<string>('');
     const [setup, setSetup] = useState<string>('');
     const [price, setPrice] = useState<string>('');
     const [have, setHave] = useState<boolean>(true);
     const [name, setName] = useState<string>('');
     const [desciption, setDescription] = useState<string>(' ');
-    const [fit, setFit] = useState<IFit[]>([
-        {
-            id: 1,
-            text: 'Kia',
-            filling: Fill.full,
-            active: true,
-            items: [
-                {
-                    secondId: 1,
-                    text: 'Sportage(JE) 2004-2019',
-                    filling: Fill.empty,
-                    active: false
-                },
-                {
-                    secondId: 2,
-                    text: 'Sportage(JE) 2005-2019',
-                    filling: Fill.empty,
-                    active: false
-                },  {
-                    secondId: 3,
-                    text: 'Sportage(JE) 2006-2019',
-                    filling: Fill.empty,
-                    active: false
-                },
-                {
-                    secondId: 4,
-                    text: 'Sportage(JE) 2008-2019',
-                    filling: Fill.empty,
-                    active: false
-                },
-
-            ]
-        },
-        {
-            id: 2,
-            text: 'Hyndai',
-            filling: Fill.full,
-            active: true,
-            items: [
-                {
-                    secondId: 1,
-                    text: 'Tucson(JM) 2004-2010',
-                    filling: Fill.full,
-                    active: false,
-                    items: [
-                        {
-                            thirdId: 1,
-                            text: '2 CRDi',
-                            filling: Fill.empty
-                        },
-                        {
-                            thirdId: 2,
-                            text: '2 CRDi Привод на все колеса',
-                            filling: Fill.empty
-                        },
-                    ]
-                },
-                {
-                    secondId: 2,
-                    text: 'Tucson(JM) 2006-2010',
-                    filling: Fill.full,
-                    active: false,
-                    items: [
-                        {
-                            thirdId: 1,
-                            text: '2 CRDi',
-                            filling: Fill.empty
-                        },
-                        {
-                            thirdId: 2,
-                            text: '2 CRDi Привод на все колеса',
-                            filling: Fill.empty
-                        },
-                    ]
-                },
-                {
-                    secondId: 3,
-                    text: 'Tucson(JM) 2009-2010',
-                    filling: Fill.empty,
-                    active: false,
-                },
-            ]
-        },
-    ]);
+    const [fit, setFit] = useState<any[]>([]);
     const modalContext = useContext(ModalContext);
 
 
     useEffect(()=>{
-        fetchItemOne({'id' : id})
+        fetchItemOne({'id' : Number(id)})
             .then(res => {
                 let item: IProduct = {
                     code: '',
@@ -147,18 +53,32 @@ const Product: React.FC = () => {
                 console.error(error);
             });
 
-        fetchModelsByItemId({'id' : id})
+        fetchModelsByItemId(Number(id))
             .then(res => {
-                console.log(res)
+                let arr = res.map((el: any)=>{
+                    return el.model;
+                })
+
+                setFit(arr)
                 }
             )
             .catch(error => {
                 console.error(error);
             });
 
+        fetchComment(Number(id))
+            .then(res => {
+                if (res instanceof Object) {
+                    const comments: IComment[] = res.comment;
+                    setReviews(comments);
+                }
+                }
+            )
+            .catch(error => {
+                console.error(error);
+            });
 
     }, [])
-
 
     return (
         <section className="main">
@@ -168,7 +88,6 @@ const Product: React.FC = () => {
                         <div className="additional-img-box">
                             {images.map((el: any, index)=>(
                                 <div className="additional-img__item" key={index} onClick={(e)=>{
-                                    console.log(el)
                                     setSelectImage(el);
                                 }
                                 }>
@@ -182,7 +101,6 @@ const Product: React.FC = () => {
                         <div className="applicable-box">
                             <ul className="applicable-list applicable-list-main">
                                 <List list={fit}/>
-
                             </ul>
                         </div>
                 </div>
@@ -221,7 +139,7 @@ const Product: React.FC = () => {
                 </div>
             </div>
             {modalContext?.value === modalType.addToCart ? (
-                <AddToCarModal name={name} id={id}/>
+                <AddToCarModal name={name} id={Number(id)}/>
             ): ''}
 
         </section>

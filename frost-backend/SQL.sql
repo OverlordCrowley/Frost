@@ -13,6 +13,8 @@ DROP TABLE
     basket_devices
     CASCADE;
 
+
+
 -- Вставка данных в таблицу users (Пользователи)
 INSERT INTO users (email, first_name, second_name, last_name, telephone, region, city, street, home, number_home, pass,
                    "createdAt", "updatedAt")

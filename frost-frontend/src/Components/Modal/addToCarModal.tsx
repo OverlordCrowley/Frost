@@ -6,13 +6,13 @@ import Input from "../UI/Input/Input";
 import BlueButton from "../UI/BlueButton/BlueButton";
 
 interface RegistrationModalProps{
-    id: string,
+    id: number | undefined,
     name: string
 }
 
 const RegistrationModal = (props: RegistrationModalProps) => {
     const modalContext = useContext(ModalContext);
-    const [id ,setId] = useState<string | undefined>(props.id)
+    const [id ,setId] = useState<number | undefined>(props.id)
     const [name ,setName] = useState<string>(props.name)
     const [count ,setCount] = useState<number>(1)
     const [mail, setMail] = useState<string>('');
