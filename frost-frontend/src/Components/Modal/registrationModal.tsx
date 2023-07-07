@@ -9,9 +9,38 @@ const RegistrationModal = () => {
     const modalContext = useContext(ModalContext);
 
     const [mail, setMail] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
+    const [repeatPassword, setRepeatPassword] = useState<string>('');
+    const [name, setName] = useState<string>('');
+    const [secondName, setSecondName] = useState<string>('');
+    const [isActive, setIsActive] = useState<boolean>(false);
+
     const EmailSet = (val: string) =>{
         setMail(val);
     }
+    const NameSet = (val: string) =>{
+        setName(val);
+    }
+    const PasswordSet = (val: string) =>{
+        setPassword(val);
+    }
+    const SecondNameSet = (val: string) =>{
+        setSecondName(val);
+    }
+    const RepeatPasswordSet = (val: string) =>{
+        setRepeatPassword(val);
+    }
+
+    useEffect(()=>{
+        if(repeatPassword === password){
+            setIsActive(true)
+        }
+        else{
+            setIsActive(false)
+        }
+
+    }, [repeatPassword, password])
+
 
     return (
         <div className='ModalSection' onClick={()=>{
@@ -23,14 +52,14 @@ const RegistrationModal = () => {
             }}>
                 <h6 className={'ModalTitle'}>Создание учётной записи</h6>
                 <div className={'ModalTitleTop'}>
-                    <Input type={'text'} placeholder={'Имя'} name={'secondName'} func={EmailSet} style={{width: 220}}/>
-                    <Input type={'text'} placeholder={'Фамилия'} name={'firstName'} func={EmailSet} style={{width: 250}}/>
+                    <Input type={'text'} placeholder={'Имя'} name={'secondName'} func={NameSet} style={{width: 220}}/>
+                    <Input type={'text'} placeholder={'Фамилия'} name={'firstName'} func={SecondNameSet} style={{width: 250}}/>
                 </div>
                 <Input type={'email'} placeholder={'Адрес электронной почты'} name={'email'} func={EmailSet}/>
-                <Input type={'password'} placeholder={'Пароль'} name={'password'} func={EmailSet}/>
-                <Input  type={'password'} placeholder={'Повторите пароль'} name={'repeatPassword'} func={EmailSet}/>
+                <Input type={'password'} placeholder={'Пароль'} name={'password'} func={PasswordSet}/>
+                <Input type={'password'} placeholder={'Повторите пароль'} name={'repeatPassword'} func={RepeatPasswordSet}/>
 
-                <BlueButton name={'Зарегистрироваться'} style={{marginTop: 41}} smallFont={true}/>
+                <BlueButton name={'Зарегистрироваться'} active={isActive} style={{marginTop: 41}} smallFont={true}/>
                 <button className={'login'}  onClick={()=>{modalContext?.updateValue(modalType.login);}}>Войти в существующую учётную запись</button>
             </div>
         </div>
