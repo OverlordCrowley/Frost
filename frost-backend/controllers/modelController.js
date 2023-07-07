@@ -1,5 +1,5 @@
 const ApiError = require('../error/ApiError');
-const {Model} = require('../models/models')
+const {Model, GenerationType} = require('../models/models')
 
 class ModelController{
     async getAll(req, res, next) {
@@ -10,6 +10,14 @@ class ModelController{
         }
         const model = await Model.findAll()
         return res.json({model})
+    }
+
+    async getByItemId(req, res, next) {
+        let {id} = req.query;
+        if(id){
+            const model = await GenerationType.findAll({where:{'deviceId' : id}})
+            return res.json({model})
+        }
     }
 }
 

@@ -1,8 +1,8 @@
 const ApiError = require('../error/ApiError');
-const {User, Basket, Device, GenerationType, Generation} = require('../models/models')
+const {User, Basket, Device, GenerationType, Generation, Image} = require('../models/models')
 const {Op} = require("sequelize");
 const {isBoolean} = require("validator");
-
+const path = require("path");
 
 
 class DeviceController {
@@ -16,16 +16,6 @@ class DeviceController {
             currentPage,
             count
         } = req.query;
-
-        console.log({
-            categoryId,
-            modelId,
-            brandId,
-            available,
-            generationId,
-            currentPage,
-            count
-        })
 
         const whereClause = {};
 
@@ -63,6 +53,9 @@ class DeviceController {
                 model: GenerationType,
                 required: generationId ? true : false,
                 where: generationId ? { generationId } : {},
+            }, {
+                model: Image,
+                attributes: ['path'],
             }];
 
             if (currentPage && count) {
@@ -91,21 +84,29 @@ class DeviceController {
         } catch (error) {
             return next(ApiError.internal('Ошибка сервера'));
         }
+
     }
 
-
     async getOne(req, res, next) {
-        const {deviceId} = req.query
-        if (deviceId) {
-            try{
-                const device = await Device.findOne({where: {id: deviceId}})
+        const { id } = req.query;
+
+        if (id) {
+            try {
+                const device = await Device.findOne({
+                    where: { 'id': id },
+                    include: [{
+                        model: Image,
+                        attributes: ['path'],
+                    }]
+                });
+
                 if (!device) {
-                    return next(ApiError.badRequest('Товара с данным id, нет'))
+                    return next(ApiError.badRequest('Товара с данным id не существует'));
                 }
-                return res.json({device})
-            }
-            catch (e){
-                return next(ApiError.badRequest('Товара с данным id, нет'))
+
+                return res.json({ device });
+            } catch (error) {
+                return next(ApiError.badRequest('Товара с данным id не существует'));
             }
         }
     }
@@ -119,7 +120,11 @@ class DeviceController {
                     code: {
                         [Op.like]: `%${code}%`
                     }
-                }
+                },
+                include: [{
+                    model: Image,
+                    attributes: ['path'],
+                }]
             });
 
             return res.json(devices);
@@ -127,6 +132,7 @@ class DeviceController {
             return next(ApiError.internal('Ошибка сервера'));
         }
     }
+
 
 
 }

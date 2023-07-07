@@ -7,12 +7,13 @@ import axios from "axios";
 import {Fill, IComment, IFit, IProduct, modalType} from "../../types/types";
 import {ModalContext} from "../../store/ModalContext";
 import AddToCarModal from "../../Components/Modal/addToCarModal";
+import {fetchItemOne} from "../../http/itemAPI";
+import {fetchModelsByItemId} from "../../http/modelAPI";
 
-const image1 = require('../../images/5003-01.png');
-const image2 = require('../../images/5003-02.png');
-const image3 = require('../../images/5003-03.png');
-const image4 = require('../../images/5003-04.png');
+
 const Product: React.FC = () => {
+
+
     const { id } = useParams() as { id: string };
     const defaultReviews: IComment[] = [
         {
@@ -27,31 +28,14 @@ const Product: React.FC = () => {
         },
     ];
     const [reviews, setReviews] = useState<IComment[]>(defaultReviews);
-    const [images, setImages] = useState([
-        {
-        id: 1,
-        src: image1
-    },
-        {
-            id: 2,
-            src: image2
-        },
-        {
-            id: 3,
-            src: image3
-        },
-        {
-            id: 4,
-            src:    image4
-        },
-    ]);
-    const [selectImage, setSelectImage] = useState(images[0]);
-    const [articul, setArticul] = useState<string>('AC0053');
-    const [setup, setSetup] = useState<string>('DOWOON');
-    const [price, setPrice] = useState<string>('110 999');
+    const [images, setImages] = useState([]);
+    let [selectImage, setSelectImage] = useState<any>({});
+    const [articul, setArticul] = useState<string>('');
+    const [setup, setSetup] = useState<string>('');
+    const [price, setPrice] = useState<string>('');
     const [have, setHave] = useState<boolean>(true);
-    const [name, setName] = useState<string>('Компрессор кондиционера Hyundai Tucson, Kia Sportage 97701-2E300');
-    const [desciption, setDescription] = useState<string>('Оригинальный компрессор 7H15 MG, муфта под 8-ми ручейковый ремень, управляется напряжением 24 Вольта. Подлинность изделия можно проверить на сайте компании производителя.');
+    const [name, setName] = useState<string>('');
+    const [desciption, setDescription] = useState<string>(' ');
     const [fit, setFit] = useState<IFit[]>([
         {
             id: 1,
@@ -137,10 +121,11 @@ const Product: React.FC = () => {
         },
     ]);
     const modalContext = useContext(ModalContext);
+
+
     useEffect(()=>{
-        axios.get(`http://frost.runtime.kz/products?page=1&size=12`)
+        fetchItemOne({'id' : id})
             .then(res => {
-                let items = res.data['items'];
                 let item: IProduct = {
                     code: '',
                     description: '',
@@ -148,37 +133,46 @@ const Product: React.FC = () => {
                     manufacturer: '',
                     price: '',
                 };
-                items.forEach((el:any, index:number)=>{
-                    if(el.id.toString() === id){
-                        item = el;
-                    }
-                })
-                setArticul(item.code)
-                setSetup(item.manufacturer)
-                setDescription(item.description)
-                setName(item.name)
-                setPrice(item.price)
+                setArticul(res.device.code)
+                setSetup(res.device.manufacturer)
+                setDescription(res.device.description)
+                setName(res.device.name)
+                setPrice(res.device.price)
+                setImages(res.device.images)
+                setHave(res.device.available)
+                setSelectImage(res.device.images[0])
                 }
             )
             .catch(error => {
                 console.error(error);
             });
-    }, [])
 
+        fetchModelsByItemId({'id' : id})
+            .then(res => {
+                console.log(res)
+                }
+            )
+            .catch(error => {
+                console.error(error);
+            });
+
+
+    }, [])
 
 
     return (
         <section className="main">
             <div className="container product-container">
                 <div className="main-left">
-                    <img className="main-img" src={selectImage.src} alt="Copressor image"/>
+                    <img className="main-img" src={process.env.REACT_APP_API_URL + selectImage.path} alt="Copressor image"/>
                         <div className="additional-img-box">
-                            {images.map((el, index)=>(
+                            {images.map((el: any, index)=>(
                                 <div className="additional-img__item" key={index} onClick={(e)=>{
+                                    console.log(el)
                                     setSelectImage(el);
                                 }
                                 }>
-                                    <img src={el.src} alt="copressor photo" className="additional-img__img"/>
+                                    <img src={process.env.REACT_APP_API_URL + el.path} alt="compressor photo" className="additional-img__img"/>
                                 </div>
                             ))}
 

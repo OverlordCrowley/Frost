@@ -97,6 +97,7 @@ const Main = () => {
                     setCurPage(res.currentPage);
                     setLastPage(res.totalPages);
                     setItems(res.devices.rows);
+
                 }
             )
             .catch(error => {
@@ -268,7 +269,7 @@ const Main = () => {
                 </div>
                 <div className="item-box">
                     {items.map((el, index)=>(
-                        <Card image={el.image} name={el.name} link={el.id} price={el.price} key={index}/>
+                        <Card image={el.images} name={el.name} link={el.id} price={el.price} key={index}/>
                     ))}
                 </div>
               <PageBox handler={handleClick} pages={pages}/>

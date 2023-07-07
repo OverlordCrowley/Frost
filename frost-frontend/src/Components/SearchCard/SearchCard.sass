@@ -1,0 +1,37 @@
+.miniBlock
+  width: 352px
+  border: 1px solid #6A6A6A
+  border-top: none
+  height: 300px
+  overflow: auto
+  display: none
+  background-color: #474747
+  position: absolute
+  visibility: hidden
+  opacity: 0
+  top: 34px
+  left: 0
+  z-index: 9999
+  &-v
+    display: block
+    visibility: visible
+    opacity: 1
+  &-item
+    display: flex
+    align-items: center
+    padding: 20px 20px
+    min-height: 60px
+    cursor: pointer
+    color: white
+    & > img
+      width: 50px
+      height: 50px
+      object-fit: cover
+    &-right
+      margin-left: 15px
+      display: flex
+      height: 100%
+      flex-direction: column
+      justify-content: space-between
+      &__text
+        text-align: left

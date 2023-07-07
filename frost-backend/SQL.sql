@@ -209,10 +209,16 @@ VALUES (1, 1, 'Отличный компрессор, работает безу�
 
 -- Вставка данных в таблицу images (Изображения)
 INSERT INTO images (path, "deviceId", "createdAt", "updatedAt")
-VALUES ('image1.jpg', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-       ('image2.jpg', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-       ('image3.jpg', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-       ('image4.jpg', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+VALUES
+        ('image1.jpg', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        ('image2.jpg', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        ('image3.jpg', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        ('image4.jpg', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        ('image5.jpg', 3, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        ('image6.jpg', 4, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        ('image7.jpg', 5, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+
+;
 
 -- Вставка данных в таблицу generations_type (Типы поколений)
 INSERT INTO generation_types ("createdAt", "updatedAt", "generationId", "modelId", "deviceId")

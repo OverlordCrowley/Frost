@@ -6,3 +6,8 @@ export const fetchModels = async (brandId) => {
         return data;
 }
 
+export const fetchModelsByItemId = async (id) => {
+        const {data} = await $host.get('api/model/byItemID?id=' + id);
+        return data;
+}
+

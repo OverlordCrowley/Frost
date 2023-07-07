@@ -11,5 +11,9 @@ export const fetchItemByCode = async ({code}) => {
         return data;
 }
 
+export const fetchItemOne = async ({id}) => {
+        const {data} = await $host.get(`api/device/one?id=${id}` );
+        return data;
+}
 
 

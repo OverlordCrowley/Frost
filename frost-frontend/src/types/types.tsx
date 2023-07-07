@@ -30,14 +30,15 @@ export interface Item{
     id: number;
     price: number;
     link: string;
-    image: string;
+    images: string[];
 }
 
 export interface ItemByCode{
+    code: string;
     name: string;
     id: number;
     price: number;
-    image: string;
+    images: string[];
 }
 
 export interface IItems{
