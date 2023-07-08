@@ -12,7 +12,7 @@ import {fetchModelsByItemId} from "../../http/modelAPI";
 import {fetchComment} from "../../http/commentAPI";
 
 
-const Product: React.FC = () => {
+const Product = () => {
 
 
     const { id } = useParams();
@@ -84,14 +84,14 @@ const Product: React.FC = () => {
         <section className="main">
             <div className="container product-container">
                 <div className="main-left">
-                    <img className="main-img" src={process.env.REACT_APP_API_URL + selectImage.path} alt="Copressor image"/>
+                    <img className="main-img" src={selectImage && selectImage.path ? process.env.REACT_APP_API_URL + selectImage.path : require('../../images/Заглушка.png')} alt="Copressor image"/>
                         <div className="additional-img-box">
                             {images.map((el: any, index)=>(
                                 <div className="additional-img__item" key={index} onClick={(e)=>{
                                     setSelectImage(el);
                                 }
                                 }>
-                                    <img src={process.env.REACT_APP_API_URL + el.path} alt="compressor photo" className="additional-img__img"/>
+                                    <img src={el.path ? process.env.REACT_APP_API_URL + el.path : require('../../images/Заглушка.png')} alt="compressor photo" className="additional-img__img"/>
                                 </div>
                             ))}
 

@@ -3,17 +3,20 @@ import {ModalContext} from "../../store/ModalContext";
 import './Modal.sass';
 import {modalType} from "../../types/types";
 import Input from "../UI/Input/Input";
+import {useNavigate} from "react-router-dom";
 import BlueButton from "../UI/BlueButton/BlueButton";
+import {fetchCartItems, registration} from "../../http/userAPI";
+import {HISTORY_ROUTE, PROFILE_ROUTE} from "../../utils/consts";
 
 const RegistrationModal = () => {
     const modalContext = useContext(ModalContext);
-
     const [mail, setMail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [repeatPassword, setRepeatPassword] = useState<string>('');
     const [name, setName] = useState<string>('');
     const [secondName, setSecondName] = useState<string>('');
     const [isActive, setIsActive] = useState<boolean>(false);
+    const navigate = useNavigate()
 
     const EmailSet = (val: string) =>{
         setMail(val);
@@ -30,16 +33,27 @@ const RegistrationModal = () => {
     const RepeatPasswordSet = (val: string) =>{
         setRepeatPassword(val);
     }
+    const SendRequest = () => {
+        registration(mail, password, name, secondName).then((res : any)=>{
+            modalContext?.setUser(res)
+            modalContext?.setIsAuth(true)
+            navigate(HISTORY_ROUTE)
+            }
+        )
+            .catch(error=>{
+                alert(error.response.data.message)
+            })
+    }
 
     useEffect(()=>{
-        if(repeatPassword === password){
+        if(repeatPassword === password && repeatPassword.length >= 10 && name.length >= 2 && secondName.length >= 2 && mail.length >= 12){
             setIsActive(true)
         }
         else{
             setIsActive(false)
         }
 
-    }, [repeatPassword, password])
+    }, [repeatPassword, password, mail, secondName, name])
 
 
     return (
@@ -56,10 +70,15 @@ const RegistrationModal = () => {
                     <Input type={'text'} placeholder={'Фамилия'} name={'firstName'} func={SecondNameSet} style={{width: 250}}/>
                 </div>
                 <Input type={'email'} placeholder={'Адрес электронной почты'} name={'email'} func={EmailSet}/>
-                <Input type={'password'} placeholder={'Пароль'} name={'password'} func={PasswordSet}/>
-                <Input type={'password'} placeholder={'Повторите пароль'} name={'repeatPassword'} func={RepeatPasswordSet}/>
+                <Input type={'password'} placeholder={'Пароль'} name={'password'} minLength={10} maxLength={25} func={PasswordSet}/>
+                <Input type={'password'} placeholder={'Повторите пароль'} name={'repeatPassword'} minLength={10} maxLength={25} func={RepeatPasswordSet}/>
+                <button className={"button-blue item-box-item__btn btn-blue-effect button-blue-edited " +  (isActive ? '' : 'button-blue-hidden')}
+                        onClick={()=>{
+                            if(isActive){
+                                SendRequest();
+                            }
 
-                <BlueButton name={'Зарегистрироваться'} active={isActive} style={{marginTop: 41}} smallFont={true}/>
+                }} style={{marginTop: 41}}>Зарегистрироваться</button>
                 <button className={'login'}  onClick={()=>{modalContext?.updateValue(modalType.login);}}>Войти в существующую учётную запись</button>
             </div>
         </div>

@@ -98,6 +98,10 @@ export interface IProduct{
 export interface IModalContext {
     value: string;
     updateValue: (newValue: modalType) => void;
+    user: {email?: string | undefined, id?: number | undefined};
+    setUser: (newValue?: {email?: string, id?: number}) => void;
+    isAuth: boolean;
+    setIsAuth: (newValue: any) => void;
 }
 
 export enum modalType {

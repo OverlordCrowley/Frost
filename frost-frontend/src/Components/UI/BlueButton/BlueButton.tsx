@@ -15,21 +15,20 @@ interface BlueButtonProps{
 const BlueButton: React.FC<BlueButtonProps> = ({link, name, onClick,smallFont, style, active}) => {
     let [linkValue, setLinkValue] = useState<number | undefined>(link);
     let [nameValue, setNameValue] = useState<string>(name);
-    let [isActive, setIsActive] = useState<boolean | undefined>(false);
+    let [isActive, setIsActive] = useState<boolean | undefined>(undefined);
     useEffect(()=>{
         setLinkValue(link);
         setNameValue(name);
         setIsActive(active);
     }, [link, name, active])
 
-    console.log(isActive)
     return (
        <>
            {link ? (
                <Link
                    to={'/item/' + link}
                    style={style}
-                   className={`item-box-item__btn btn-blue-effect ${smallFont ? 'button-blue-s' : ''} ${isActive ? 'button-blue-visible' : 'button-blue-hidden'}`}
+                   className={`item-box-item__btn btn-blue-effect ${smallFont ? 'button-blue-s' : ''}`}
                >
                    {name}
                </Link>
@@ -37,7 +36,7 @@ const BlueButton: React.FC<BlueButtonProps> = ({link, name, onClick,smallFont, s
                <a
                    onClick={onClick}
                    style={style}
-                   className={`item-box-item__btn btn-blue-effect ${smallFont ? 'button-blue-s' : ''} ${isActive ? 'button-blue-visible' : 'button-blue-hidden'}`}
+                   className={`item-box-item__btn btn-blue-effect ${smallFont ? 'button-blue-s' : ''}`}
                >
                    {name}
                </a>

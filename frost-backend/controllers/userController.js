@@ -66,6 +66,7 @@ class UserController {
             return res.status(400).json({message: "Ошибка  при регистрации", errors});
         }
         const {email, password} = req.body
+        console.log({email, password})
         const user = await User.findOne({where: {email}})
         if (!user) {
             return next(ApiError.internal('Пользователь не найден'))
@@ -141,8 +142,8 @@ class UserController {
 
 
     async getBaskedCount(req, res, next) {
-        const { userId } = req.body;
-        let basket = await Basket.findOne({ where: { userId: Number(userId) } });
+        const { id } = req.body;
+        let basket = await Basket.findOne({ where: { userId: Number(id) } });
 
         if (basket) {
             let basketDevices = await BasketDevice.findAll({
