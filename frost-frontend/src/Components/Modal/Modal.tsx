@@ -19,6 +19,15 @@ const Modal: React.FC = () => {
             document.body.style.overflow = 'auto';
         }
     },[])
+    useEffect(()=>{
+        console.log(modalContext?.value)
+        if(modalContext?.value !== modalType.none){
+            document.body.style.overflow = 'hidden';
+        }
+        else{
+            document.body.style.overflow = 'auto';
+        }
+    },[modalContext?.value])
     return (
             <>
                 {modalContext?.value === modalType.reg ? (

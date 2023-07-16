@@ -29,6 +29,9 @@ const Header: React.FC = () => {
                  modalContext?.setUser(jwt_decode(token));
                  modalContext?.setIsAuth(true);
             }
+             else{
+                 navigate(SHOP_ROUTE)
+             }
 
     },[])
 

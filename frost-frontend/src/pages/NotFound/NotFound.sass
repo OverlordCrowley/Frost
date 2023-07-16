@@ -1,0 +1,22 @@
+.notfound-container
+  background-color: #131313
+  display: flex
+  justify-content: center
+  align-items: center
+  height: 100vh
+  & > h1
+  font-size: 48px
+  color: white
+  margin: 0
+
+  .char
+    animation: colorChange 1s infinite alternate
+    display: inline-block
+
+@keyframes colorChange
+  0%
+    background-color: #ff3366
+  50%
+    background-color: #33ccff
+  100%
+    background-color: #ff3366

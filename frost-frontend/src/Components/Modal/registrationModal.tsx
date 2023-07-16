@@ -4,9 +4,8 @@ import './Modal.sass';
 import {modalType} from "../../types/types";
 import Input from "../UI/Input/Input";
 import {useNavigate} from "react-router-dom";
-import BlueButton from "../UI/BlueButton/BlueButton";
-import {fetchCartItems, registration} from "../../http/userAPI";
-import {HISTORY_ROUTE, PROFILE_ROUTE} from "../../utils/consts";
+import {registration} from "../../http/userAPI";
+import {HISTORY_ROUTE} from "../../utils/consts";
 
 const RegistrationModal = () => {
     const modalContext = useContext(ModalContext);
@@ -37,6 +36,7 @@ const RegistrationModal = () => {
         registration(mail, password, name, secondName).then((res : any)=>{
             modalContext?.setUser(res)
             modalContext?.setIsAuth(true)
+            modalContext?.updateValue(modalType.none);
             navigate(HISTORY_ROUTE)
             }
         )

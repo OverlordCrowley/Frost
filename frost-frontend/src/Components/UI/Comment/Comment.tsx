@@ -14,10 +14,14 @@ const Comment: React.FC<CommentProps> = (props) => {
     }, [props])
 
     return (
-        <div className="reviews-item">
-             <p className="reviews__full-name">{comment.user.first_name + " " + comment.user.second_name}</p>
-             <p className="reviews__text">{comment.text}</p>
-        </div>
+       <>
+           {comment && comment.user.first_name && comment.user.second_name && comment.text ? (
+               <div className="reviews-item">
+                   <p className="reviews__full-name">{comment.user.first_name + " " + comment.user.second_name}</p>
+                   <p className="reviews__text">{comment.text}</p>
+               </div>
+           ) : ''}
+       </>
     );
 };
 

@@ -83,6 +83,8 @@
   border: 1px solid #E5E5E5
   border-right: none
 
+.active
+  color: #2156BD
 
 .rec
   width: 0
@@ -137,14 +139,46 @@
   border: 1px solid #E5E5E5
   padding: 64px 69px 60px 54px
   width: 100%
+  &-edited
+    width: 370px
+    height: auto
+    display: flex
+    flex-direction: column
+    font-size: 20px
+.profile-small
+    width: 770px
+    background: #FFFFFF
+    border: 1px solid #E5E5E5
+    padding: 64px 69px 60px 54px
 
+.profile-list
+  background: #FFFFFF
+  border: 1px solid #E5E5E5
+  padding: 65px 40px
+  width: 370px
+  display: flex
+  flex-direction: column
+  font-size: 20px
 
 .cart-text
   font-style: normal
   font-weight: 600
   font-size: 24px
   color: #000000
+.profile-text-edited
+  font-size: 20px
+  display: flex
+  align-items: center
+  color: #1A2749
+  font-weight: 700
+  margin-top: 26px
+  white-space: nowrap
+  font-family: 'Open Sans', serif
+  &:first-child
+    margin-top: 0
 
+.svg
+  margin-right: 16px
 
 .item-row
   display: flex
@@ -298,3 +332,9 @@
   color: #FFFFFF
   background-color: #2156BD
   padding: 13px 72px
+
+.profile-container
+  display: flex
+  width: 100%
+  justify-content: space-between
+  align-items: flex-start

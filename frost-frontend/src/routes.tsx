@@ -10,10 +10,10 @@ import {
 import Main from "./pages/Main/Main";
 import Cart from "./pages/Cart/Cart";
 import Product from "./pages/Product/Product";
-import History from "./pages/History/History";
-import Contact from "./pages/Contact/Contact";
-import Delivery from "./pages/Delivery/Delivery";
 import React from "react";
+import Contact from "./Components/Contact/Contact";
+import Delivery from "./Components/Delivery/Delivery";
+import History from "./Components/History/HistoryBlock";
 
 interface IPublicRoutes {
     path: string;

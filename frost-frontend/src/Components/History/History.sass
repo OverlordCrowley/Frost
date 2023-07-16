@@ -83,6 +83,8 @@
   border: 1px solid #E5E5E5
   border-right: none
 
+.active
+  color: #2156BD
 
 .rec
   width: 0
@@ -147,7 +149,7 @@
     width: 770px
     background: #FFFFFF
     border: 1px solid #E5E5E5
-    padding: 64px 69px 60px 54px
+    padding: 64px 35px 60px 35px
 
 .profile-list
   background: #FFFFFF
@@ -158,11 +160,14 @@
   flex-direction: column
   font-size: 20px
 
-.cart-text
+.order-text
+  padding-left: 16px
   font-style: normal
   font-weight: 600
   font-size: 24px
   color: #000000
+  margin-bottom: 45px
+
 .profile-text-edited
   font-size: 20px
   display: flex
@@ -176,158 +181,92 @@
 .svg
   margin-right: 16px
 
-.item-row
-  display: flex
-  margin-top: 30px
-  padding-bottom: 30px
-  border-bottom: 1px solid #D3D3D3
+
+.profile-small
+  .orderItem-text
+    width: 100%
+    padding-bottom: 30px
+    padding-right: 7px
+    padding-left: 7px
+    font-style: normal
+    font-weight: 600
+    font-size: 24px
+    color: #000000
 
 
-.item-row-1
-  margin-top: 40px
+  .orderItem-row-1
+    margin-top: 40px
+
+  .th
+    font-style: normal
+    font-weight: 600
+    font-size: 16px
+    padding: 16px 20px
+    font-family: "Open Sans", sans-serif
+    white-space: nowrap
+    color: #000000
+
+    &:nth-child(2)
+      padding-left: 0
+      padding-right: 0
 
 
-.th
-  font-style: normal
-  font-weight: 600
-  font-size: 20px
-  color: #000000
+  .orderItem-rows
+    max-width: 100%
+    display: block
+    border-bottom: 2px solid #D3D3D3
+    margin-top: 0
+    &__text
+      max-width: 100%
+      font-style: normal
+      font-weight: 400
+      font-size: 16px
+      color: #000000
+      margin-bottom: 20px
 
+  td
+    max-width: 20%
+    width: 20%
 
-.item-quantity
-  margin-left: 536px
-  margin-right: 100px
+    &:nth-child(2)
+      max-width: 42%
+      width: 42%
 
+  table, thead, tbody
+    max-width: 100%
+    width: 100%
 
-.main-row
-  margin-top: 41px
-  margin-bottom: 40px
+  tr
+    width: 100%
+    display: block
+    margin-top: 30px
+    &:first-child
 
+  .orderItem-row
+    border-bottom: 2px solid #D3D3D3
+    padding-bottom: 30px
+    &:last-child
+      border-bottom: none
 
-.item-row__text
-  width: 714px
-  font-style: normal
-  font-weight: 400
-  font-size: 16px
-  color: #000000
-  margin-bottom: 20px
+  .orderItem-row__text
+    padding: 0 10px
+    font-size: 14px
+    &-code
+      padding-left: 20px
 
+  .orderItem
+    &-date
+      text-align: center
+    &-name
+      text-align: left
+      width: 40%
 
-.item-row__art
-  font-style: normal
-  font-weight: 400
-  font-size: 16px
-  color: #7A7A7A
-
-
-.item-row__del
-  font-style: normal
-  font-weight: 600
-  font-size: 16px
-  text-decoration-line: underline
-  color: #2156BD
-  cursor: pointer
-  background-color: transparent
-  border: none
-  margin-left: 28px
-
-
-.item-col-2
-  margin-left: 80px
-  display: flex
-  align-items: center
-
-  height: 25px
-
-
-.btn-minus, .btn-plus
-  background-color: transparent
-  font-style: normal
-  font-weight: 600
-  width: 10px
-  line-height: 33px
-  font-size: 24px
-  color: #000000
-  border: none
-  cursor: pointer
-
-
-.btn-minus
-  margin-bottom: 4px
-
-
-.btn-plus
-  margin-bottom: 2px
-
-
-.item-row__numb
-  font-style: normal
-  font-weight: 600
-  font-size: 18px
-  color: #000000
-  line-height: 25px
-  margin-left: 17px
-  margin-right: 18px
-
-
-.item-col-3
-  margin-left: auto
-  font-style: normal
-  font-weight: 600
-  font-size: 18px
-  color: #000000
-
-
-.conclusion
-  margin-top: 40px
-  display: flex
-  align-items: center
-  justify-content: space-between
-
-
-.payment__text
-  font-style: normal
-  font-weight: 600
-  font-size: 16px
-  color: #646464
-
-
-#payment-method
-  margin-top: 9px
-  padding: 8px 0 5px 13px
-  width: 419px
-  background: #F6F6F6
-  border: 1px solid #D3D3D3
-  font-style: normal
-  font-weight: 400
-  font-size: 16px
-  color: #000000
-
-
-.full-price-box
-  align-self: flex-end
-
-
-.full-price__text, .full-price__price
-  font-style: normal
-  font-weight: 600
-  font-size: 30px
-  color: #000000
-
-
-.full-price__price
-  margin-left: 47px
-
-
-.checkout-btn
-  margin-top: 30px
-  margin-left: auto
-  font-style: normal
-  font-weight: 600
-  font-size: 18px
-  color: #FFFFFF
-  background-color: #2156BD
-  padding: 13px 72px
+  .orderItem-col-3
+    margin-left: auto
+    font-style: normal
+    font-weight: 600
+    font-size: 18px
+    color: #000000
 
 .profile-container
   display: flex

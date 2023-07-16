@@ -1,9 +1,8 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {ModalContext} from "../../store/ModalContext";
 import './Modal.sass';
 import {modalType} from "../../types/types";
 import Input from "../UI/Input/Input";
-import BlueButton from "../UI/BlueButton/BlueButton";
 import {login} from "../../http/userAPI";
 import {HISTORY_ROUTE} from "../../utils/consts";
 import {useNavigate} from "react-router-dom";
@@ -25,6 +24,10 @@ const RegistrationModal = () => {
         login(mail, pass).then((res : any)=>{
             modalContext?.setUser(res)
             modalContext?.setIsAuth(true)
+            console.log('------------------------1')
+            modalContext?.updateValue(modalType.none);
+            console.log('------------------------2')
+            console.log(modalContext?.value)
             navigate(HISTORY_ROUTE)
             }
         )

@@ -12,7 +12,7 @@ const ReviewList: React.FC<ReviewListProps> = (props) => {
     useEffect(()=>{
         setList(props.list);
     },[props])
-
+    console.log(list)
     return (
         <div>
             {list.map((el: any, index: number)=>(

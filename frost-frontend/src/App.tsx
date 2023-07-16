@@ -17,11 +17,11 @@ import {
     PROFILE_ROUTE,
     SHOP_ROUTE
 } from "./utils/consts";
-import History from "./pages/History/History";
-import Contact from "./pages/Contact/Contact";
-import Delivery from "./pages/Delivery/Delivery";
-const {Redirect} = require('react-router-dom');
-const {Switch} = require('react-router-dom');
+import NotFound from "./pages/NotFound/NotFound";
+import Profile from "./pages/Profile/Profile";
+import Contact from "./Components/Contact/Contact";
+import Delivery from "./Components/Delivery/Delivery";
+import HistoryBlock from "./Components/History/HistoryBlock";
 
 const App: React.FC = () => {
 
@@ -37,15 +37,19 @@ const App: React.FC = () => {
 
               {modalContext?.value !== modalType.none && modalContext?.value !== undefined ? (<Modal/>): ''}
               <Routes>
-                  <Route path={SHOP_ROUTE} element={<Layout/>}>
-                      <Route index element={<MainPage/>}/>
-                      <Route path={DEVICE_ROUTE} element={<Product/>} />
-                      {modalContext?.isAuth ? <Route path={HISTORY_ROUTE} element={<History/>}/> : '' }
-                      {modalContext?.isAuth ? (<Route path={BASKET_ROUTE} element={<Cart/>}/>) : '' }
-                      {modalContext?.isAuth ? <Route path={CONTACT_ROUTE} element={<Contact/>}/> : '' }
-                      {modalContext?.isAuth ? <Route path={DELIVERY_ROUTE} element={<Delivery/>}/> : '' }
+                  <Route path="/" element={<Layout />}>
+                      <Route index element={<MainPage />} />
+                      <Route path={DEVICE_ROUTE} element={<Product />} />
+                      <Route path={BASKET_ROUTE} element={<Cart />} />
+                      <Route path={PROFILE_ROUTE} element={<Profile />}>
+                          <Route path={HISTORY_ROUTE} element={<HistoryBlock />} />
+                          <Route path={CONTACT_ROUTE} element={<Contact />} />
+                          <Route path={DELIVERY_ROUTE} element={<Delivery />} />
+                      </Route>
+                      <Route path="*" element={<NotFound />} />
                   </Route>
               </Routes>
+
 
 
                   {/*{modalContext?.isAuth && authRoutes.map(({ path, Component }) => (*/}
