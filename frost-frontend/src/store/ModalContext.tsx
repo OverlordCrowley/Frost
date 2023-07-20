@@ -29,7 +29,6 @@ const ModalContextProvider: React.FC<ModalContextProviderProps> = ({ children })
 
 
 
-
     return (
         <ModalContext.Provider value={modalContextValue}>
             {children}

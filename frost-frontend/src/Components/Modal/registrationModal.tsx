@@ -75,6 +75,7 @@ const RegistrationModal = () => {
                 <button className={"button-blue item-box-item__btn btn-blue-effect button-blue-edited " +  (isActive ? '' : 'button-blue-hidden')}
                         onClick={()=>{
                             if(isActive){
+                                modalContext?.updateValue(modalType.none)
                                 SendRequest();
                             }
 

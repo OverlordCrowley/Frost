@@ -40,7 +40,7 @@ class BasketController {
                 return next(ApiError.badRequest('Произошла ошибка во время добавления товара в корзину'))
             }
         } else {
-            return res.status(400).json({ error: 'Invalid request' });
+            return next(ApiError.badRequest('Ошибка запроса'))
         }
     }
 
@@ -56,7 +56,7 @@ class BasketController {
 
             return res.json({ basketDevices });
         } else {
-            return res.status(404).json({ error: 'Корзина не найдена' });
+            return next(ApiError.badRequest('Корзина не найдена'))
         }
 
     }
@@ -89,7 +89,6 @@ class BasketController {
 
         async deleteItem(req, res, next) {
             const { deviceId, userId } = req.query;
-            console.log(deviceId, userId)
             try {
                 let basket = await Basket.findOne({where: {'userId': userId}})
                 let basketDevice = await BasketDevice.destroy({
@@ -100,8 +99,7 @@ class BasketController {
                     return res.json({ basketDevice });
                 }
              catch (error) {
-                // return next(ApiError.badRequest("Внутренняя ошибка сервера"));
-                 console.log(error)
+                return next(ApiError.badRequest("Внутренняя ошибка сервера"));
             }
         }
 }

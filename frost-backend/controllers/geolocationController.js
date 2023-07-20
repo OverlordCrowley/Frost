@@ -5,7 +5,6 @@ class BasketController {
 
     async getAllRegion(req, res, next) {
         const { countryId } = req.params;
-        console.log(req.params)
         if (countryId) {
             try {
                 const region = await Region.findAll({where: {"countryId": countryId}});

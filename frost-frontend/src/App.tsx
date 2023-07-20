@@ -32,7 +32,7 @@ import Forgot from "./pages/Forgot/Forgot";
 const App: React.FC = () => {
 
     const modalContext = useContext(ModalContext);
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
   return (
           <div className="App">
@@ -41,7 +41,9 @@ const App: React.FC = () => {
               {/*    <p>ZZZ</p>*/}
               {/*</Modal>*/}
 
-              {modalContext?.value !== modalType.none && modalContext?.value !== undefined ? (<Modal/>): ''}
+              {/*{modalContext?.value !== modalType.none && modalContext?.value !== undefined ? (<Modal/>): ''}*/}
+              <Modal/>
+
               <Routes>
                   <Route path="/" element={<Layout />}>
                       <Route index element={<MainPage />} />

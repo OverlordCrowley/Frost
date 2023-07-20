@@ -19,6 +19,7 @@ const RegistrationModal = () => {
     const emailSend = () => {
         forgotPassword({'email': mail}).then(res=>{
             alert('Запрос на сброс был отправлен на вашу почту')
+            modalContext?.updateValue(modalType.none)
             }
         )
             .catch((error)=>{

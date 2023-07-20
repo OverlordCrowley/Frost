@@ -86,6 +86,7 @@ const RegistrationModal = (props: RegistrationModalProps) => {
                 </div>
                 <BlueButton onClick={()=>{
                     addCartItem({'userId': userId, 'deviceId': id, 'count': count}).then(res=>{
+                        modalContext?.updateValue(modalType.none)
                         NavigateToCart()
                     })
                         .catch(err=>{

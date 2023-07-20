@@ -4,14 +4,13 @@ import Select from "../../Components/UI/Select/Select";
 import Checkbox from "../../Components/UI/Checkbox/Checkbox";
 import Card from "../../Components/Card/Card";
 import PageBox from "../../Components/PageBox/PageBox";
-import axios from "axios";
-import {Fill, IBrands, ICategories, IFitLevel2, IGeneration, IItems, IModels, IPages, Item} from "../../types/types";
+import {Fill, IBrands, ICategories, IGeneration, IItems, IModels, IPages, Item} from "../../types/types";
 import {fetchCategories} from "../../http/categoryAPI";
 import {fetchBrands} from "../../http/brandAPI";
 import {fetchModels} from "../../http/modelAPI";
 import {fetchGeneration} from "../../http/generationAPI";
 import {fetchItem} from "../../http/itemAPI";
-import {log} from "util";
+
 const Main = () => {
     const defaultCategories: ICategories = {
         items: [],
@@ -113,7 +112,6 @@ const Main = () => {
                 items : res.category,
                 standard : 'Все категории'
                 };
-                console.log(obj)
                 setCategory(obj)
                 }
             )

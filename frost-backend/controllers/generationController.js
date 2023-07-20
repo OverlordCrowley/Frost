@@ -34,8 +34,7 @@ class GenerationController{
 
     }
     catch (e){
-        // next(ApiError.badRequest('Поколения с такой моделью не существует'))
-        console.log(e)
+        next(ApiError.badRequest('Поколения с такой моделью не существует'))
     }
     }
 }

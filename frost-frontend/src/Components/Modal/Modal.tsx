@@ -11,40 +11,31 @@ import AddToCarModal from "./addToCarModal";
 
 const Modal: React.FC = () => {
     const modalContext = useContext(ModalContext);
-    useEffect(()=>{
-        if(modalContext?.value !== modalType.none){
+
+    useEffect(() => {
+        if (modalContext?.value !== modalType.none) {
             document.body.style.overflow = 'hidden';
-        }
-        else{
+        } else {
             document.body.style.overflow = 'auto';
         }
-    },[])
-    useEffect(()=>{
-        console.log(modalContext?.value)
-        if(modalContext?.value !== modalType.none){
-            document.body.style.overflow = 'hidden';
-        }
-        else{
-            document.body.style.overflow = 'auto';
-        }
-    },[modalContext?.value])
+    }, [modalContext?.value]);
+
     return (
-            <>
-                {modalContext?.value === modalType.reg ? (
-                    (<RegistrationModal/>)
+        <>
+            {modalContext?.value === modalType.reg ? (
+                (<RegistrationModal/>)
+            ) : ''}
 
-                ): ''}
+            {modalContext?.value === modalType.login ? (
+                <LoginModal/>
+            ) : ''}
 
-                {modalContext?.value === modalType.login ? (
-                    <LoginModal/>
-                ): ''}
-
-                {modalContext?.value === modalType.forgotPass ? (
-                    <ForgotModal/>
-                ): ''}
+            {modalContext?.value === modalType.forgotPass ? (
+                <ForgotModal/>
+            ) : ''}
 
 
-            </>
+        </>
     );
 };
 

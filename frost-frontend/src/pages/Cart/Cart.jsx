@@ -25,9 +25,10 @@ const Cart = () => {
         let all = 0;
         let arrs = [];
 
-        let token = jwt_decode(localStorage.getItem('token'));
+        let storedToken = localStorage.getItem('token');
 
-        if(token){
+        if(storedToken){
+            let token = jwt_decode(storedToken)
             fetchCartItems({'id':token.id}).then(res=>{
                 res.basketDevices.map((el)=>{
                     let obj = el;

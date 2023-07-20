@@ -19,7 +19,7 @@ class UserController {
     async registration(req, res, next) {
         const errors = validationResult(req);
         if(!errors.isEmpty()){
-            return res.status(400).json({message: "Ошибка  при регистрации", errors});
+            return next(ApiError.badRequest('Ошибка данных'))
         }
         const {email, password, name, first_name} = req.body
         if (!email || !password) {
@@ -152,7 +152,6 @@ class UserController {
 
             return res.json({ message: 'Письмо со ссылкой для сброса пароля отправлено на вашу почту' });
         } catch (error) {
-            console.log(error)
             return res.status(500).json({ error: 'Ошибка сервера' });
         }
     }
@@ -178,8 +177,7 @@ class UserController {
 
             return res.json({ message: 'Пароль успешно изменен' });
         } catch (error) {
-            console.log(error)
-            // return res.status(500).json({ error: 'Ошибка сервера' });
+            return res.status(500).json({ error: 'Ошибка сервера' });
         }
     };
 
@@ -253,7 +251,6 @@ class UserController {
 
                 return res.json({ message: 'Данные пользователя были успешно обновлены.' });
         } catch (error) {
-            console.error(error);
             return next(ApiError.badRequest('Ошибка в обновлении данных пользователя'))
         }
     }

@@ -47,7 +47,6 @@ class OrderController{
 
             return res.json({ orders: result });
         } catch (error) {
-            console.error(error);
             return next(ApiError.badRequest('Невозможно получить заказы.'));
         }
     }
@@ -160,13 +159,12 @@ class OrderController{
                     });
                 }
 
-                return res.json({ message: 'Order created or updated successfully.' });
+                return res.json({ message: 'Заказ был успешно добавлен или измененю' });
             } else {
-                return res.status(400).json({ error: 'Basket or basket devices not found.' });
+                return next(ApiError.badRequest('Корзина не найдена'))
             }
         } catch (error) {
-            console.error(error);
-            return res.status(500).json({ error: 'Failed to create or update order.' });
+            return next(ApiError.badRequest('Ошибка в создании или обнолвении данных заказа'))
         }
     }
 
