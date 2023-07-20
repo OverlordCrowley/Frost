@@ -3,16 +3,12 @@ import Select from "../UI/Select/Select";
 import {ISelect} from "../../types/types";
 import './History.sass'
 import {Link} from "react-router-dom";
+import {getOrderById} from "../../http/orderAPI";
+import jwt_decode from "jwt-decode";
+import {getUserInfo} from "../../http/userAPI";
 
 const HistoryBlock = () => {
 
-    let [selectItem, setSelectItem] = useState([
-        {
-            name: 'Способ оплаты',
-            def: 'Оплата при получении',
-            arr: ['Оплата при получении',1]
-        }
-    ]);
     let [items, setItems] = useState<any[]>([
         {
             id: 1,
@@ -33,17 +29,22 @@ const HistoryBlock = () => {
     ]);
     let [total, setTotal] = useState(0);
     useEffect(()=>{
-        let all = 0;
-        let arrs: any[] = [];
-        items.map((el)=>{
-            let obj = el;
-            obj.price = obj.count * obj.pricePerOne
-            arrs.push(obj);
+        let token: any = null;
+        const storedToken = localStorage.getItem('token');
+        if (storedToken) {
+            token = jwt_decode(storedToken);
+        }
 
-            all+= el.count * el.pricePerOne;
-        })
-        setItems(arrs);
-        setTotal(all);
+        if(token){
+            getOrderById({"userId": token.id}).then((res: any)=>{
+                setItems(res.orders)
+            })
+                .catch(error=>{
+                    console.log(error)
+                })
+
+        }
+
     },[])
 
 
@@ -63,11 +64,22 @@ const HistoryBlock = () => {
                      <tbody>
                          {items ? items.map((el,index)=>(
                              <tr className="orderItem-row" key={index}>
-                                 <td className="orderItem-row__text orderItem-row__text-code"><b>1</b></td>
-                                 <td className="orderItem-row__text orderItem-row__text-pd">{el.name}</td>
-                                 <td className="orderItem-row__text orderItem-date">06.07.2019</td>
-                                 <td className="orderItem-row__text orderItem-date">206 998 тг</td>
+                                 <td className="orderItem-row__text orderItem-row__text-code">
+                                     <b>{el.orderId}</b>
+                                 </td>
+                                 <td className="orderItem-row__text orderItem-row__text-pd">
+                                     {el.devices && el.devices.map((el2: any, index2: number) => (
+                                       <>
+                                           <p key={index2}>{el2.device.name}</p>
+                                           <p style={{marginTop: 10}}>{el2.count} X {el2.device.price}</p>
+                                       </>
+                                     ))}
+                                 </td>
+                                 <td className="orderItem-row__text orderItem-date">{el.updatedAt}</td>
+                                 <td className="orderItem-row__text orderItem-date">{el.totalCost} тг</td>
                              </tr>
+
+
                          )) : 'Список истории заказов пуст'}
                     </tbody>
                  </table>

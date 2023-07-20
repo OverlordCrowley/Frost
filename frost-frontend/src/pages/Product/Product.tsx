@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import './Product.sass';
-import {Link, useParams} from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import ReviewList from "../../Components/ReviewList/ReviewList";
 import List from "../../Components/UI/List/List";
 import axios from "axios";
@@ -27,7 +27,7 @@ const Product = () => {
     const [desciption, setDescription] = useState<string>(' ');
     const [fit, setFit] = useState<any[]>([]);
     const modalContext = useContext(ModalContext);
-
+    const navigate = useNavigate();
 
     useEffect(()=>{
         fetchItemOne({'id' : Number(id)})
@@ -121,7 +121,14 @@ const Product = () => {
                                     <p className="price-have__city">г. Алматы</p>
                                 </div>):(<div className="price-havent">нет в наличии
                                 </div>)}
-                                <button onClick={()=>{modalContext?.updateValue(modalType.addToCart);}} className="button-blue btn-blue-effect">Купить</button>
+                                <button onClick={()=> {
+                                    if (modalContext?.isAuth) {
+                                        modalContext?.updateValue(modalType.addToCart);
+                                    }
+                                    else{
+                                        modalContext?.updateValue(modalType.login);
+                                    }
+                                }} className="button-blue btn-blue-effect">Купить</button>
                             </div>
 
                         </div>

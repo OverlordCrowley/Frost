@@ -1,73 +1,88 @@
 import React, {useEffect, useState} from 'react';
 import './Cart.sass';
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import Select from "../../Components/UI/Select/Select";
+import jwt_decode from "jwt-decode";
+import {deleteItem, fetchCartItems, updateItem} from "../../http/basketAPI";
+import {BASKET_ROUTE_STEP_TWO} from "../../utils/consts";
+import {updateUserInfo} from "../../http/userAPI";
+import {addOrUpdateOrder} from "../../http/orderAPI";
 const Cart = () => {
-    let [selectItem, setSelectItem] = useState([
+
+    let [selectItem, setSelectItem] = useState(
         {
+            items: [{id: 1, name: 'Оплата при получении'}, {id: 2, name: 'Оплата Картой'}],
             name: 'Способ оплаты',
-            def: 'Оплата при получении',
-            arr: ['Оплата при получении',1]
+            standard: "Оплата картой"
         }
-    ]);
-    let [items, setItems] = useState([
-        {
-          id: 1,
-          name: 'Компрессор кондиционера Hyundai Tucson, Kia Sportage 97701-2E300FD; 0935-03se; Kia Sportage 97701-2E300FD; 0935-02',
-          count: 1,
-          pricePerOne: 110999,
-          price: 0,
-          articul: 'AC97701',
-        },
-        {
-            id: 2,
-            name: 'Компрессор кондиционера Hyundai Tucson, Kia Sportage 97701-2E300FD; 0935-03se',
-            count: 1,
-            pricePerOne: 95999,
-            price: 0,
-            articul: 'AC97701',
-        },
-    ]);
+    );
+    let [payment, setPayment] = useState('2');
+    let [items, setItems] = useState([]);
     let [total, setTotal] = useState(0);
+    let navigate = useNavigate();
+
     useEffect(()=>{
         let all = 0;
         let arrs = [];
-        items.map((el)=>{
-            let obj = el;
-            obj.price = obj.count * obj.pricePerOne
-            arrs.push(obj);
 
-            all+= el.count * el.pricePerOne;
-        })
-        setItems(arrs);
-        setTotal(all);
+        let token = jwt_decode(localStorage.getItem('token'));
+
+        if(token){
+            fetchCartItems({'id':token.id}).then(res=>{
+                res.basketDevices.map((el)=>{
+                    let obj = el;
+                    el = el.count * obj.device.price
+                    arrs.push(obj);
+                    all+= el.count * obj.device.price;
+                })
+                setItems(arrs);
+                setTotal(all);
+            })
+                .catch(error=>{
+                    console.log(error)
+                })
+
+        }
+
     },[])
 
     useEffect(()=>{
         let all = 0;
         items.map(el=>{
-            all+= el.count * el.pricePerOne;
+            all+= el.count * el.device.price;
         })
         setTotal(all);
     },[items])
 
 
 
-    function deleteItem(index){
+    function deleteOneItem(index){
         let oldList = [...items];
         let newList = [];
         oldList.map((el)=>{
-            if(el.id !== index){
+            if(el.device.id !== index){
                 newList.push(el);
+            }
+            else{
+                let token = jwt_decode(localStorage.getItem('token'))
+                deleteItem({'deviceId': el.device.id, 'userId': token.id}).then(r => {
+                })
             }
         })
         setItems(newList);
     }
     function removeCount(id){
         const updatedItems = items.map((item) => {
-            if (item.id === id) {
+            if (item.device.id === id) {
                 const updatedCount = item.count - 1;
+                let token = jwt_decode(localStorage.getItem('token'))
+                updateItem({'deviceId': item.device.id, 'userId': token.id, 'count': item.count}).then(r => {
+
+                })
                 if (updatedCount <= 0) {
+                    deleteItem({'deviceId': item.device.id, 'userId': token.id}).then(r => {
+
+                    })
                     return null;
                 } else {
                     return { ...item, count: updatedCount };
@@ -84,7 +99,7 @@ const Cart = () => {
         let arr = [...items];
         arr.map((el)=>{
             let obj = el;
-            obj.price = obj.count * obj.pricePerOne
+            obj.totalPrice = obj.count * obj.device.price
             arrs.push(obj);
         })
         setItems(arrs);
@@ -94,8 +109,12 @@ const Cart = () => {
         let newList = [];
         oldList.map((el,index)=>{
             let obj = el;
-            if(el.id === id){
+            if(el.device.id === id && obj.count < 10){
                 obj.count++;
+                let token = jwt_decode(localStorage.getItem('token'))
+                updateItem({'deviceId': obj.device.id, 'userId': token.id, 'count': el.count}).then(r => {
+
+                })
                 newList.push(obj);
             }else{
                 newList.push(el);
@@ -106,6 +125,43 @@ const Cart = () => {
         setItems(newList);
     }
 
+    const UpdateData = () => {
+        let token = null;
+        const storedToken = localStorage.getItem('token');
+        if (storedToken) {
+            token = jwt_decode(storedToken);
+        }
+        if(token){
+            addOrUpdateOrder({
+                "userId" : token.id,
+                "first_name" : undefined,
+                "second_name" : undefined,
+                "last_name" : undefined,
+                "email" : undefined,
+                "tel" : undefined,
+                "country" : undefined,
+                "region" : undefined,
+                "city" : undefined,
+                "street" : undefined,
+                "home" : undefined,
+                "number" : undefined,
+                "position": false,
+                "paymentMethod" : payment,
+
+            }).then(
+                res=>{
+                    navigate(BASKET_ROUTE_STEP_TWO)
+                }
+            )
+                .catch(e=>{
+                    console.log(e)
+                })
+        }
+    }
+
+    const updatePayment = (val) => {
+        setPayment(val)
+    }
 
     return (
         <section className="preparation">
@@ -113,9 +169,9 @@ const Cart = () => {
                 <div className="top-container">
                     <h6 className="preparation-title">Оформление заказа</h6>
                     <div className="stage-box">
-                        <div className="stage stage-1">
+                        <div className="stage stage-1 stage-1-ml">
                             <div className="sq sq-active">Корзина</div>
-                            <div className="rec"></div>
+                            <div className="rec rec-a"></div>
                         </div>
                         <div className="stage stage-2">
                             <div className="sq">Контактные данные</div>
@@ -143,35 +199,34 @@ const Cart = () => {
                         {items.map((el,index)=>(
                             <div className="item-row" key={index}>
                                 <div className="item-col-1">
-                                    <p className="item-row__text">{el.name}</p>
-                                    <span className="item-row__art">Артикул: {el.articul}</span>
+                                    <p className="item-row__text">{el.device.name}</p>
+                                    <span className="item-row__art">Артикул: {el.device.code}</span>
                                     <button className="item-row__del"
-                                            onClick={(e)=>{deleteItem(el.id)}} >
+                                            onClick={(e)=>{deleteOneItem(el.device.id)}} >
                                         Удалить из корзины</button>
                                 </div>
                                 <div className="item-col-2">
-                                    <button className="btn-minus" onClick={(e)=>{removeCount(el.id)}}>-</button>
+                                    <button className="btn-minus" onClick={(e)=>{removeCount(el.device.id)}}>-</button>
                                     <span className="item-row__numb">{el.count}</span>
-                                    <button className="btn-plus" onClick={(e)=>{addCount(el.id)}}>+</button>
+                                    <button className="btn-plus" onClick={(e)=>{addCount(el.device.id)}}>+</button>
                                 </div>
                                 <div className="item-col-3">
-                                    <span className="item-row__price">{Math.floor(el.price/1000)} {el.price%1000} тг</span>
+                                    <span className="item-row__price">{el.device.price * el.count} тг</span>
                                 </div>
                             </div>
                         ))}
 
                         <div className="conclusion">
                             <div className="payment-box">
-                                {selectItem.map((el,index)=>(
-                                    <div className="sort-item" style={{marginLeft: 0}} key={index}>
-                                        <span className="sort-item__title">{el.name}</span>
-                                        <Select  arr={el}/>
+
+                                    <div className="sort-item" style={{marginLeft: 0}}>
+                                        <span className="sort-item__title">{selectItem.name}</span>
+                                        <Select click={updatePayment} def={selectItem.standard}  arr={selectItem.items} />
                                     </div>
-                                ))}
                             </div>
                             <div className="full-price-box">
                                 <span className="full-price__text">Итого к оплате:</span>
-                                <span className="full-price__price">{Math.floor(total/1000)}  {total%1000}</span>
+                                <span className="full-price__price">{total} тг</span>
                             </div>
                         </div>
 
@@ -179,7 +234,7 @@ const Cart = () => {
                     <p className="cart-text">Корзина пустая</p>
                 </div>)}
                 {items.length > 0 ? (
-                    <Link to="/" className="checkout-btn btn-blue-effect">Оформить заказ</Link>) : ""}
+                    <button onClick={UpdateData} className="checkout-btn btn-blue-effect">Оформить заказ</button>) : ""}
             </div>
         </section>
     );

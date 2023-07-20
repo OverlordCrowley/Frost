@@ -11,6 +11,7 @@ import {fetchBrands} from "../../http/brandAPI";
 import {fetchModels} from "../../http/modelAPI";
 import {fetchGeneration} from "../../http/generationAPI";
 import {fetchItem} from "../../http/itemAPI";
+import {log} from "util";
 const Main = () => {
     const defaultCategories: ICategories = {
         items: [],
@@ -94,6 +95,7 @@ const Main = () => {
             "currentPage" : curPage,
             "count" : count})
             .then(res => {
+
                     setCurPage(res.currentPage);
                     setLastPage(res.totalPages);
                     setItems(res.devices.rows);
@@ -105,11 +107,13 @@ const Main = () => {
             });
         fetchCategories()
             .then(res => {
+
                 const obj = {
                 name : 'Категории',
                 items : res.category,
                 standard : 'Все категории'
                 };
+                console.log(obj)
                 setCategory(obj)
                 }
             )

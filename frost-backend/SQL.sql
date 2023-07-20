@@ -1,19 +1,3 @@
-DROP TABLE
-    users,
-    baskets,
-    categories,
-    brands,
-    models,
-    generations,
-    orders,
-    reviews,
-    devices,
-    images,
-    generation_types,
-    basket_devices
-    CASCADE;
-
-
 
 -- Вставка данных в таблицу users (Пользователи)
 INSERT INTO users (email, first_name, second_name, last_name, telephone, region, city, street, home, number_home, pass,
@@ -212,13 +196,13 @@ VALUES (1, 1, 'Отличный компрессор, работает безу�
 -- Вставка данных в таблицу images (Изображения)
 INSERT INTO images (path, "deviceId", "createdAt", "updatedAt")
 VALUES
-        ('image1.jpg', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        ('image2.jpg', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        ('image3.jpg', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        ('image4.jpg', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        ('image5.jpg', 3, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        ('image6.jpg', 4, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        ('image7.jpg', 5, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+        ('image1.png', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        ('image2.png', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        ('image3.png', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        ('image4.png', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        ('image5.png', 3, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        ('image6.png', 4, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        ('image7.png', 5, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
 
 ;
 
@@ -247,5 +231,21 @@ VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 1, 1, 1),
 
 
 -- Вставка данных в таблицу basketDevices (Устройства в корзине)
-INSERT INTO basket_devices ("basketId", "deviceId", "createdAt", "updatedAt")
-VALUES (1, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+
+
+INSERT INTO countries (name, "createdAt", "updatedAt")
+VALUES ('Казахстан', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+
+-- Создание записи о регионе Алматы
+INSERT INTO regions (name, "countryId", "createdAt", "updatedAt")
+VALUES ('Алматы', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP); -- 1 - идентификатор страны Казахстан
+
+-- Создание записи о регионе Нур-Султан
+INSERT INTO regions (name, "countryId", "createdAt", "updatedAt")
+VALUES ('Нур-Султан', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP); -- 1 - идентификатор страны Казахстан
+
+-- Создание записи о регионе Шымкент
+INSERT INTO regions (name, "countryId", "createdAt", "updatedAt")
+VALUES ('Шымкент', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP); -- 1 - идентификатор страны Казахстан
+
+

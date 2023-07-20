@@ -1,6 +1,6 @@
 import React, {createContext, useContext, useState} from "react";
 import {IModalContext, modalType} from '../types/types';
-import {fetchCartItems} from "../http/userAPI";
+import {fetchCartItems} from "../http/basketAPI";
 
 export const ModalContext = createContext<IModalContext | undefined>(undefined);
 
@@ -16,8 +16,6 @@ const ModalContextProvider: React.FC<ModalContextProviderProps> = ({ children })
     const updateValue = (newValue: modalType) => {
         setValue(newValue);
     };
-
-
 
 
     const modalContextValue: IModalContext = {

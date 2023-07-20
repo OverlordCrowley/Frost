@@ -5,6 +5,7 @@ import {ISelect} from "../../../types/types";
 interface SelectProps{
     isModel: boolean;
     def: string;
+    fullField?: boolean;
     arr: ISelect[];
     click?: (val: number | string) => void;
 }
@@ -27,7 +28,7 @@ const Select: React.FC<SelectProps> = (props) => {
     }, [props.arr])
 
     return (
-        <div onMouseLeave={()=>setActive(false)}   className="sort-item__field" onClick={(e) => {
+        <div onMouseLeave={()=>setActive(false)}   className={"sort-item__field " + (props.fullField ? 'sort-item__field-w' : '')} onClick={(e) => {
             e.stopPropagation();
             setActive(true)
         }}>

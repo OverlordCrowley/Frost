@@ -37,6 +37,7 @@ router.post('/login', [
 router.get('/auth', authMiddleware, userController.check)
 router.post('/forgot', userController.forgot)
 router.post('/reset/:token', userController.reset)
-router.post('/basket', userController.getBaskedCount)
+router.post('/', userController.update)
+router.post('/getInfo', userController.getInfo)
 
 module.exports = router

@@ -7,6 +7,9 @@ const generationRouter = require('./generationRouter')
 const deviceRouter = require('./deviceRouter')
 const userRouter = require('./userRouter')
 const commentRouter = require('./commentsRouter')
+const basketRouter = require('./basketRouter')
+const orderRouter = require('./orderRouter')
+const geolocationRouter = require('./geolocationRouter')
 
 
 router.use('/user', userRouter)
@@ -16,5 +19,8 @@ router.use('/model', modelRouter)
 router.use('/generation', generationRouter)
 router.use('/device', deviceRouter)
 router.use('/comment', commentRouter)
+router.use('/basket', basketRouter)
+router.use('/order', orderRouter)
+router.use('/geolocation', geolocationRouter)
 
 module.exports = router

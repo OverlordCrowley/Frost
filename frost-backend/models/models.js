@@ -9,6 +9,7 @@ const User = sequelize.define('user', {
     last_name: { type: DataTypes.STRING, allowNull: true },
     telephone: { type: DataTypes.STRING, allowNull: true },
     region: { type: DataTypes.STRING, allowNull: true },
+    country: { type: DataTypes.STRING, allowNull: true },
     city: { type: DataTypes.STRING, allowNull: true },
     street: { type: DataTypes.STRING, allowNull: true },
     home: { type: DataTypes.STRING, allowNull: true },
@@ -22,6 +23,7 @@ const Basket = sequelize.define('basket', {
 
 const BasketDevice = sequelize.define('basket_device', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    count: { type: DataTypes.INTEGER },
 });
 
 const Image = sequelize.define('image', {
@@ -59,9 +61,29 @@ const Generation = sequelize.define('generation', {
     name: { type: DataTypes.STRING, allowNull: false },
 });
 
+const EmailReset = sequelize.define('email_reset', {
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    time: { type: DataTypes.STRING, allowNull: false },
+    token: { type: DataTypes.STRING, allowNull: false },
+});
+
 const Order = sequelize.define('order', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     basketId: { type: DataTypes.INTEGER },
+    payment_method: { type: DataTypes.STRING },
+    description: { type: DataTypes.ARRAY(DataTypes.JSON) },
+    first_name: { type: DataTypes.STRING },
+    second_name: { type: DataTypes.STRING },
+    last_name: { type: DataTypes.STRING },
+    email: { type: DataTypes.STRING },
+    tel: { type: DataTypes.STRING },
+    country: { type: DataTypes.STRING },
+    region: { type: DataTypes.STRING },
+    city: { type: DataTypes.STRING },
+    street: { type: DataTypes.STRING },
+    home: { type: DataTypes.STRING },
+    number: { type: DataTypes.STRING },
+    position: { type: DataTypes.BOOLEAN}
 });
 
 const GenerationType = sequelize.define('generation_type', {
@@ -74,8 +96,21 @@ const Review = sequelize.define('review', {
 
 });
 
+const Country = sequelize.define('country', {
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    name: { type: DataTypes.STRING, unique: true, allowNull: false },
+});
+
+const Region = sequelize.define('region', {
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    name: { type: DataTypes.STRING, allowNull: false },
+});
+
 User.hasOne(Basket);
 Basket.belongsTo(User);
+
+User.hasOne(EmailReset);
+EmailReset.belongsTo(User);
 
 Basket.hasMany(BasketDevice);
 BasketDevice.belongsTo(Basket);
@@ -116,6 +151,8 @@ Review.belongsTo(Device);
 Basket.hasOne(Order);
 Order.belongsTo(Basket);
 
+Country.hasMany(Region);
+Region.belongsTo(Country);
 
 module.exports = {
     User,
@@ -129,5 +166,8 @@ module.exports = {
     Generation,
     GenerationType,
     Order,
-    Review
+    Review,
+    EmailReset,
+    Country,
+    Region
 };

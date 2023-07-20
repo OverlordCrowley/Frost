@@ -4,7 +4,7 @@ import {Link, useNavigate} from "react-router-dom";
 import {ModalContext} from "../../store/ModalContext";
 import {modalType} from "../../types/types";
 import Search from "../UI/Search/Search";
-import {fetchCartItems} from "../../http/userAPI";
+import {fetchCartItems} from "../../http/basketAPI";
 import {BASKET_ROUTE, HISTORY_ROUTE, SHOP_ROUTE} from "../../utils/consts";
 import jwt_decode from "jwt-decode";
 
@@ -21,17 +21,14 @@ const Header: React.FC = () => {
     useEffect(()=>{
             if(modalContext?.isAuth && modalContext?.user && modalContext?.user){
                 fetchCartItems({'id': modalContext?.user.id}).then(res => {
-                    console.log(res)
+                    setCount(res.basketDevices.length)
                 })
             }
             let token = localStorage.getItem('token');
-             if(token){
+             if(token && token !== ''){
                  modalContext?.setUser(jwt_decode(token));
                  modalContext?.setIsAuth(true);
             }
-             else{
-                 navigate(SHOP_ROUTE)
-             }
 
     },[])
 
@@ -39,7 +36,7 @@ const Header: React.FC = () => {
 
         if(modalContext?.user){
             fetchCartItems({'id': modalContext?.user.id}).then(res => {
-                console.log(res)
+                setCount(res.basketDevices.length)
             })
                 .catch(error=>{
 

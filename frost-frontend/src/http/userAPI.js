@@ -19,8 +19,25 @@ export const check = async () => {
     return jwt_decode(data.token)
 }
 
-export const fetchCartItems = async ({id}) => {
-    const {data} = await $host.post('api/user/basket', {id} )
-    return data;
+export const getUserInfo = async ({id}) => {
+    const {data} = await $host.post(`api/user/getInfo`, {'userId' : id} )
+    return data
 }
+
+export const updateUserInfo = async ({userId,first_name,second_name,last_name,email,tel,country,region,city,street,home,number}) => {
+    const {data} = await $host.post('api/user/', {userId,first_name,second_name,last_name,email,tel,country,region,city,street,home,number} )
+    return data
+}
+
+export const forgotPassword = async ({email}) => {
+    const {data} = await $host.post('api/user/forgot', {email} )
+    return data
+}
+
+export const passwordChange = async ({oldPass, newPass, token}) => {
+    const {data} = await $host.post(`api/user/reset/${token}`, {oldPass, newPass} )
+    return data
+}
+
+
 

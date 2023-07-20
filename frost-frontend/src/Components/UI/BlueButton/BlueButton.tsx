@@ -3,7 +3,7 @@ import './BlueButton.sass';
 import {Link} from "react-router-dom";
 
 interface BlueButtonProps{
-    link?: number;
+    link?: number | string;
     name: string;
     onClick?: () => void;
     active?: boolean;
@@ -13,7 +13,7 @@ interface BlueButtonProps{
 
 
 const BlueButton: React.FC<BlueButtonProps> = ({link, name, onClick,smallFont, style, active}) => {
-    let [linkValue, setLinkValue] = useState<number | undefined>(link);
+    let [linkValue, setLinkValue] = useState<number | string | undefined>(link);
     let [nameValue, setNameValue] = useState<string>(name);
     let [isActive, setIsActive] = useState<boolean | undefined>(undefined);
     useEffect(()=>{
