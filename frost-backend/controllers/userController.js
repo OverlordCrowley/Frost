@@ -63,7 +63,7 @@ class UserController {
     async login(req, res, next) {
         const errors = validationResult(req);
         if(!errors.isEmpty()){
-            return res.status(400).json({message: "Ошибка  при регистрации", errors});
+            return next(ApiError.badRequest('Данные не заполнены'))
         }
         const {email, password} = req.body
         const user = await User.findOne({where: {email}})
@@ -152,7 +152,7 @@ class UserController {
 
             return res.json({ message: 'Письмо со ссылкой для сброса пароля отправлено на вашу почту' });
         } catch (error) {
-            return res.status(500).json({ error: 'Ошибка сервера' });
+            return next(ApiError.internal('Ошибка сервера'))
         }
     }
 
@@ -169,7 +169,7 @@ class UserController {
             const user = await User.findOne({ where: { 'id': emailReset.userId,  } });
             let comparePassword = bcrypt.compareSync(oldPass, user.pass)
             if(!comparePassword){
-                return res.status(404).json({ error: 'Неверный пароль' });
+                return next(ApiError.badRequest('Неверный пароль'))
             }
             user.pass = await bcrypt.hash(newPass, 5);
             const deleteEmail = EmailReset.destroy({where: {"token" : token}});
@@ -177,7 +177,7 @@ class UserController {
 
             return res.json({ message: 'Пароль успешно изменен' });
         } catch (error) {
-            return res.status(500).json({ error: 'Ошибка сервера' });
+            return next(ApiError.internal('Ошибка сервера'))
         }
     };
 
